@@ -1,9 +1,11 @@
-using System;
-using System.Windows.Forms;
+using GuardiaoCincoS.Dados;
+using GuardiaoCincoS.Servicos;
+using GuardiaoCincoS.Formularios;
 using Microsoft.Data.SqlClient;
+using System;
 using System.Security.Cryptography;
 using System.Text;
-using GuardiaoCincoS.Dados;
+using System.Windows.Forms;
 
 namespace GuardiaoCincoS
 {
@@ -30,7 +32,10 @@ namespace GuardiaoCincoS
                 using (var conexao = ConexaoBanco.ObterConexao())
                 {
                     conexao.Open();
-                    string sql = "SELECT Id, NomeCompleto, SenhaHash, Salt, IdPerfil FROM Usuarios WHERE NomeUsuario = @usuario AND Ativo = 1";
+                    string sql = @"SELECT u.Id, u.NomeCompleto, u.SenhaHash, u.Salt, u.IdPerfil, p.NomePerfil
+               FROM Usuarios u
+               INNER JOIN Perfis p ON p.Id = u.IdPerfil
+               WHERE u.NomeUsuario = @usuario AND u.Ativo = 1";
                     using (var comando = new SqlCommand(sql, conexao))
                     {
                         comando.Parameters.AddWithValue("@usuario", usuario);
@@ -44,8 +49,15 @@ namespace GuardiaoCincoS
 
                                 if (CompararBytes(hashArmazenado, hashDigitado))
                                 {
-                                    MessageBox.Show($"Bem-vindo, {leitor["NomeCompleto"]}!", "Login realizado");
-                                    // Próxima fase: abrir a tela principal (Dashboard) aqui
+                                    Sessao.IdUsuario = (int)leitor["Id"];
+                                    Sessao.NomeCompleto = leitor["NomeCompleto"].ToString();
+                                    Sessao.IdPerfil = (int)leitor["IdPerfil"];
+                                    Sessao.NomePerfil = leitor["NomePerfil"].ToString();
+
+                                    this.Hide();
+                                    var frmPrincipal = new FrmPrincipal();
+                                    frmPrincipal.ShowDialog();
+                                    this.Close();
                                 }
                                 else
                                 {

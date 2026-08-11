@@ -24,11 +24,11 @@ namespace GuardiaoCincoS.Dados
                     {
                         lista.Add(new Colaborador
                         {
-                            Id = (int)leitor["Id"],
-                            Nome = leitor["Nome"].ToString(),
-                            Setor = leitor["Setor"] == DBNull.Value ? "" : leitor["Setor"].ToString(),
-                            Turno = leitor["Turno"] == DBNull.Value ? "" : leitor["Turno"].ToString(),
-                            Ativo = (bool)leitor["Ativo"]
+                            Id = leitor.LerInteiro("Id"),
+                            Nome = leitor.LerTexto("Nome"),
+                            Setor = leitor.LerTexto("Setor"),
+                            Turno = leitor.LerTexto("Turno"),
+                            Ativo = leitor.LerBooleano("Ativo")
                         });
                     }
                 }
@@ -45,8 +45,8 @@ namespace GuardiaoCincoS.Dados
                 using (var comando = new SqlCommand(sql, conexao))
                 {
                     comando.Parameters.AddWithValue("@nome", c.Nome);
-                    comando.Parameters.AddWithValue("@setor", (object)c.Setor ?? DBNull.Value);
-                    comando.Parameters.AddWithValue("@turno", (object)c.Turno ?? DBNull.Value);
+                    comando.Parameters.AddWithValue("@setor", c.Setor.ValorOuNulo());
+                    comando.Parameters.AddWithValue("@turno", c.Turno.ValorOuNulo());
                     comando.ExecuteNonQuery();
                 }
             }

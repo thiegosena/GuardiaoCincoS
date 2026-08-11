@@ -44,10 +44,10 @@ namespace GuardiaoCincoS.Formularios
         {
             if (e.RowIndex < 0) return;
             var linha = dgvColaboradores.Rows[e.RowIndex];
-            _idSelecionado = (int)linha.Cells["Id"].Value;
-            txtNome.Text = linha.Cells["Nome"].Value.ToString();
-            txtSetor.Text = linha.Cells["Setor"].Value.ToString();
-            cboTurno.Text = linha.Cells["Turno"].Value.ToString();
+            _idSelecionado = Convert.ToInt32(linha.Cells["Id"].Value);
+            txtNome.Text = linha.Cells["Nome"].Value?.ToString() ?? string.Empty;
+            txtSetor.Text = linha.Cells["Setor"].Value?.ToString() ?? string.Empty;
+            cboTurno.Text = linha.Cells["Turno"].Value?.ToString() ?? string.Empty;
         }
 
         private void btnNovo_Click(object sender, EventArgs e) => LimparCampos();

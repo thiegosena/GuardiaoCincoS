@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmColaboradores));
             dgvColaboradores = new DataGridView();
             label1 = new Label();
             txtNome = new TextBox();
@@ -149,8 +150,10 @@
             Controls.Add(txtNome);
             Controls.Add(label1);
             Controls.Add(dgvColaboradores);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "FrmColaboradores";
-            Text = "FrmColaboradores";
+            StartPosition = FormStartPosition.CenterScreen;
+            Text = "Colaboradores";
             Load += FrmColaboradores_Load;
             ((System.ComponentModel.ISupportInitialize)dgvColaboradores).EndInit();
             ResumeLayout(false);

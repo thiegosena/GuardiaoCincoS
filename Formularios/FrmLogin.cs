@@ -43,16 +43,16 @@ namespace GuardiaoCincoS
                         {
                             if (leitor.Read())
                             {
-                                string salt = leitor["Salt"].ToString();
-                                byte[] hashArmazenado = (byte[])leitor["SenhaHash"];
+                                string salt = leitor.LerTexto("Salt");
+                                byte[] hashArmazenado = (byte[])leitor["SenhaHash"]!;
                                 byte[] hashDigitado = CalcularHash(senha, salt);
 
                                 if (CompararBytes(hashArmazenado, hashDigitado))
                                 {
-                                    Sessao.IdUsuario = (int)leitor["Id"];
-                                    Sessao.NomeCompleto = leitor["NomeCompleto"].ToString();
-                                    Sessao.IdPerfil = (int)leitor["IdPerfil"];
-                                    Sessao.NomePerfil = leitor["NomePerfil"].ToString();
+                                    Sessao.IdUsuario = leitor.LerInteiro("Id");
+                                    Sessao.NomeCompleto = leitor.LerTexto("NomeCompleto");
+                                    Sessao.IdPerfil = leitor.LerInteiro("IdPerfil");
+                                    Sessao.NomePerfil = leitor.LerTexto("NomePerfil");
 
                                     this.Hide();
                                     var frmPrincipal = new FrmPrincipal();
@@ -93,6 +93,15 @@ namespace GuardiaoCincoS
                 if (a[i] != b[i]) return false;
             return true;
         }
+
+        private void btnFechar_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+
+
+
     }
 
 }

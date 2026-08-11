@@ -1,9 +1,10 @@
-﻿using System;
+﻿using GuardiaoCincoS.Dados;
+using GuardiaoCincoS.Modelos;
+using GuardiaoCincoS.Servicos;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
-using GuardiaoCincoS.Dados;
-using GuardiaoCincoS.Modelos;
 
 namespace GuardiaoCincoS.Formularios
 {
@@ -18,15 +19,11 @@ namespace GuardiaoCincoS.Formularios
 
         private void FrmEscala5SSemanal_Load(object sender, EventArgs e)
         {
-            dtpInicioSemana.Value = ObterSegundaFeira(DateTime.Today);
+            dtpInicioSemana.Value = UtilData.ObterSegundaFeira(DateTime.Today);
             CarregarSemana();
         }
 
-        private DateTime ObterSegundaFeira(DateTime data)
-        {
-            int diferenca = (7 + (data.DayOfWeek - DayOfWeek.Monday)) % 7;
-            return data.AddDays(-diferenca).Date;
-        }
+        
 
         private void CarregarSemana()
         {
@@ -35,7 +32,7 @@ namespace GuardiaoCincoS.Formularios
             lblFimSemana.Text = $"até {fim:dd/MM/yyyy}";
 
             _todosColaboradores = ColaboradorDAO.Listar();
-            var idsNaEscala = EscalaDAO.ListarColaboradoresNaEscala(inicio).Select(c => c.Id).ToHashSet();
+            var idsNaEscala = EscalaDAO.ListarDisponiveisParaRonda(inicio).Select(c => c.Id).ToHashSet();
 
             clbColaboradores.Items.Clear();
             foreach (var colaborador in _todosColaboradores)

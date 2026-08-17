@@ -26,6 +26,10 @@ namespace GuardiaoCincoS.Formularios
             {
                 cadastrosToolStripMenuItem.Visible = false;
             }
+            if (Sessao.NomePerfil != "Administrador")
+            {
+                mnuUsuarios.Visible = false;
+            }
         }
 
         private void mnuCadastrosColaboradores_Click(object sender, EventArgs e)
@@ -43,8 +47,14 @@ namespace GuardiaoCincoS.Formularios
         private void mnuSistemaSair_Click(object sender, EventArgs e)
         {
             Sessao.Encerrar();
-            Application.Exit();
+            this.Hide();
+            using (var frm = new FrmLogin())
+            {
+                frm.ShowDialog();
+            }
+            this.Close();
         }
+
 
         private void mnuRondas_Click(object sender, EventArgs e)
         {
@@ -66,6 +76,24 @@ namespace GuardiaoCincoS.Formularios
         private void mnuDemarcacoes_Click(object sender, EventArgs e)
         {
             var frm = new FrmDemarcacoes();
+            frm.ShowDialog();
+        }
+
+        private void mnuOnboarding_Click(object sender, EventArgs e)
+        {
+            var frm = new FrmOnboarding();
+            frm.ShowDialog();
+        }
+
+        private void mnuMateriais_Click(object sender, EventArgs e)
+        {
+            var frm = new FrmMateriais();
+            frm.ShowDialog();
+        }
+
+        private void mnuUsuarios_Click(object sender, EventArgs e)
+        {
+            var frm = new FrmUsuarios();
             frm.ShowDialog();
         }
     }

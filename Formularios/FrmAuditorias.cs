@@ -64,8 +64,8 @@ namespace GuardiaoCincoS.Formularios
                 "1S - Seiri (Utilização)",
                 "2S - Seiton (Organização)",
                 "3S - Seiso (Limpeza)",
-                "4S - Seiketsu (Padronização)",
-                "5S - Shitsuke (Disciplina)"
+                "4S - Seiketsu (Saúde)",
+                "5S - Shitsuke (Autodisciplina)"
             };
 
             foreach (var senso in sensos)

@@ -2,10 +2,7 @@ using GuardiaoCincoS.Dados;
 using GuardiaoCincoS.Servicos;
 using GuardiaoCincoS.Formularios;
 using Microsoft.Data.SqlClient;
-using System;
-using System.Security.Cryptography;
-using System.Text;
-using System.Windows.Forms;
+
 
 namespace GuardiaoCincoS
 {
@@ -45,7 +42,7 @@ namespace GuardiaoCincoS
                             {
                                 string salt = leitor.LerTexto("Salt");
                                 byte[] hashArmazenado = (byte[])leitor["SenhaHash"]!;
-                                byte[] hashDigitado = CalcularHash(senha, salt);
+                                byte[] hashDigitado = SegurancaSenha.CalcularHash(senha, salt);
 
                                 if (CompararBytes(hashArmazenado, hashDigitado))
                                 {
@@ -78,13 +75,7 @@ namespace GuardiaoCincoS
             }
         }
 
-        private byte[] CalcularHash(string senha, string salt)
-        {
-            using (var sha256 = SHA256.Create())
-            {
-                return sha256.ComputeHash(Encoding.Unicode.GetBytes(senha + salt)); // era Encoding.UTF8
-            }
-        }
+        
 
         private bool CompararBytes(byte[] a, byte[] b)
         {

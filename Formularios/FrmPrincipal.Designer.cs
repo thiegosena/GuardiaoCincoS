@@ -39,6 +39,7 @@
             mnuAuditorias = new ToolStripMenuItem();
             mnuDemarcacoes = new ToolStripMenuItem();
             mnuOnboarding = new ToolStripMenuItem();
+            mnuCalendarioEventos = new ToolStripMenuItem();
             mnuMateriais = new ToolStripMenuItem();
             sistemaToolStripMenuItem = new ToolStripMenuItem();
             mnuSistemaSair = new ToolStripMenuItem();
@@ -59,7 +60,7 @@
             menuStrip1.AutoSize = false;
             menuStrip1.BackColor = SystemColors.ControlLight;
             menuStrip1.Dock = DockStyle.None;
-            menuStrip1.Items.AddRange(new ToolStripItem[] { cadastrosToolStripMenuItem, mnuRondas, mnuAuditorias, mnuDemarcacoes, mnuOnboarding, mnuMateriais, sistemaToolStripMenuItem });
+            menuStrip1.Items.AddRange(new ToolStripItem[] { cadastrosToolStripMenuItem, mnuRondas, mnuAuditorias, mnuDemarcacoes, mnuOnboarding, mnuCalendarioEventos, mnuMateriais, sistemaToolStripMenuItem });
             menuStrip1.Location = new Point(0, 53);
             menuStrip1.Name = "menuStrip1";
             menuStrip1.Size = new Size(1170, 24);
@@ -122,6 +123,13 @@
             mnuOnboarding.Text = "Onboarding";
             mnuOnboarding.Click += mnuOnboarding_Click;
             // 
+            // mnuCalendarioEventos
+            // 
+            mnuCalendarioEventos.Name = "mnuCalendarioEventos";
+            mnuCalendarioEventos.Size = new Size(136, 20);
+            mnuCalendarioEventos.Text = "Calendário de Eventos";
+            mnuCalendarioEventos.Click += mnuCalendarioEventos_Click;
+            // 
             // mnuMateriais
             // 
             mnuMateriais.Name = "mnuMateriais";
@@ -139,7 +147,7 @@
             // mnuSistemaSair
             // 
             mnuSistemaSair.Name = "mnuSistemaSair";
-            mnuSistemaSair.Size = new Size(180, 22);
+            mnuSistemaSair.Size = new Size(120, 22);
             mnuSistemaSair.Text = "Deslogar";
             mnuSistemaSair.Click += mnuSistemaSair_Click;
             // 
@@ -252,5 +260,6 @@
         private ToolStripMenuItem mnuOnboarding;
         private ToolStripMenuItem mnuMateriais;
         private ToolStripMenuItem mnuUsuarios;
+        private ToolStripMenuItem mnuCalendarioEventos;
     }
 }

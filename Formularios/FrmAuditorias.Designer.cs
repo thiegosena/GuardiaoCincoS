@@ -437,7 +437,7 @@
             Controls.Add(dtpDataAuditoria);
             Controls.Add(label1);
             Controls.Add(dgvHistoricoAuditorias);
-            Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            Font = new Font("Segoe UI", 9F);
             FormBorderStyle = FormBorderStyle.None;
             Icon = (Icon)resources.GetObject("$this.Icon");
             MaximizeBox = false;

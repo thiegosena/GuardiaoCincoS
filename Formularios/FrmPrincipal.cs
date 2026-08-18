@@ -96,5 +96,11 @@ namespace GuardiaoCincoS.Formularios
             var frm = new FrmUsuarios();
             frm.ShowDialog();
         }
+
+        private void mnuCalendarioEventos_Click(object sender, EventArgs e)
+        {
+            var frm = new FrmCalendarioEventos();
+            frm.ShowDialog();
+        }
     }
 }

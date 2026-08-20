@@ -51,10 +51,8 @@ namespace GuardiaoCincoS
                                     Sessao.IdPerfil = leitor.LerInteiro("IdPerfil");
                                     Sessao.NomePerfil = leitor.LerTexto("NomePerfil");
 
-                                    this.Hide();
-                                    var frmPrincipal = new FrmPrincipal();
-                                    frmPrincipal.ShowDialog();
-                                    this.Close();
+                                    DialogResult = DialogResult.OK;
+                                    Close();
                                 }
                                 else
                                 {
@@ -86,8 +84,9 @@ namespace GuardiaoCincoS
         }
 
         private void btnFechar_Click(object sender, EventArgs e)
-        {
+        {            
             Application.Exit();
+            Close();
         }
 
 

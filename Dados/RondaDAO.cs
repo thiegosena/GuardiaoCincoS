@@ -25,21 +25,68 @@ namespace GuardiaoCincoS.Dados
                 {
                     while (leitor.Read())
                     {
-                        lista.Add(new Ronda
-                        {
-                            Id = leitor.LerInteiro("Id"),
-                            Data = leitor.LerData("Data"),
-                            Tipo = leitor.LerTexto("Tipo"),
-                            IdColaboradorResponsavel = leitor.LerInteiro("IdColaboradorResponsavel"),
-                            NomeColaboradorResponsavel = leitor.LerTexto("NomeColaborador"),
-                            Status = leitor.LerTexto("Status"),
-                            Observacoes = leitor.LerTexto("Observacoes"),
-                            DataHoraConclusao = leitor.LerDataOpcional("DataHoraConclusao")
-                        });
+                        lista.Add(MapearLeitor(leitor));
                     }
                 }
             }
             return lista;
+        }
+
+        public static Ronda? ObterUltimaConcluida()
+        {
+            string sql = @"SELECT TOP 1 r.Id, r.Data, r.Tipo, r.IdColaboradorResponsavel, c.Nome AS NomeColaborador,
+                                  r.Status, r.Observacoes, r.DataHoraConclusao
+                           FROM Rondas r
+                           INNER JOIN Colaboradores c ON c.Id = r.IdColaboradorResponsavel
+                           WHERE r.Status = 'Concluida'
+                           ORDER BY r.DataHoraConclusao DESC";
+
+            using (var conexao = ConexaoBanco.ObterConexao())
+            {
+                conexao.Open();
+                using (var comando = new SqlCommand(sql, conexao))
+                using (var leitor = comando.ExecuteReader())
+                {
+                    if (leitor.Read()) return MapearLeitor(leitor);
+                }
+            }
+            return null;
+        }
+
+        public static Ronda? ObterProximaPendente()
+        {
+            string sql = @"SELECT TOP 1 r.Id, r.Data, r.Tipo, r.IdColaboradorResponsavel, c.Nome AS NomeColaborador,
+                                  r.Status, r.Observacoes, r.DataHoraConclusao
+                           FROM Rondas r
+                           INNER JOIN Colaboradores c ON c.Id = r.IdColaboradorResponsavel
+                           WHERE r.Status = 'Pendente'
+                           ORDER BY r.Data ASC, r.Id ASC";
+
+            using (var conexao = ConexaoBanco.ObterConexao())
+            {
+                conexao.Open();
+                using (var comando = new SqlCommand(sql, conexao))
+                using (var leitor = comando.ExecuteReader())
+                {
+                    if (leitor.Read()) return MapearLeitor(leitor);
+                }
+            }
+            return null;
+        }
+
+        private static Ronda MapearLeitor(SqlDataReader leitor)
+        {
+            return new Ronda
+            {
+                Id = leitor.LerInteiro("Id"),
+                Data = leitor.LerData("Data"),
+                Tipo = leitor.LerTexto("Tipo"),
+                IdColaboradorResponsavel = leitor.LerInteiro("IdColaboradorResponsavel"),
+                NomeColaboradorResponsavel = leitor.LerTexto("NomeColaborador"),
+                Status = leitor.LerTexto("Status"),
+                Observacoes = leitor.LerTexto("Observacoes"),
+                DataHoraConclusao = leitor.LerDataOpcional("DataHoraConclusao")
+            };
         }
 
         public static void Inserir(Ronda r, int idUsuarioRegistro)

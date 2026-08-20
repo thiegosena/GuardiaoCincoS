@@ -107,6 +107,36 @@ namespace GuardiaoCincoS.Dados
             };
         }
 
+        public static List<EventoCalendario> ListarProximos(int diasAFrente)
+        {
+            var lista = new List<EventoCalendario>();
+            string sql = @"SELECT e.Id, e.Titulo, e.Tipo, e.DataInicio, e.DataFim, e.Local, e.Descricao,
+                          e.IdColaboradorResponsavel, c.Nome AS NomeResponsavel, e.Status
+                   FROM EventosCalendario e
+                   LEFT JOIN Colaboradores c ON c.Id = e.IdColaboradorResponsavel
+                   WHERE e.Status <> 'Cancelado'
+                     AND e.DataInicio <= @dataLimite
+                     AND e.DataFim >= CAST(GETDATE() AS DATE)
+                   ORDER BY e.DataInicio ASC";
+
+            using (var conexao = ConexaoBanco.ObterConexao())
+            {
+                conexao.Open();
+                using (var comando = new SqlCommand(sql, conexao))
+                {
+                    comando.Parameters.AddWithValue("@dataLimite", DateTime.Today.AddDays(diasAFrente));
+                    using (var leitor = comando.ExecuteReader())
+                    {
+                        while (leitor.Read())
+                        {
+                            lista.Add(MapearLeitor(leitor));
+                        }
+                    }
+                }
+            }
+            return lista;
+        }
+
         public static void Inserir(EventoCalendario ev, int idUsuarioRegistro)
         {
             string sql = @"INSERT INTO EventosCalendario

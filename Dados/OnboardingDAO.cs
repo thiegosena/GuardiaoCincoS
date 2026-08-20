@@ -99,6 +99,52 @@ namespace GuardiaoCincoS.Dados
             }
         }
 
+        public static int ContarEmAndamento()
+        {
+            string sql = "SELECT COUNT(*) FROM Onboarding WHERE Status = 'Em Andamento'";
+            using (var conexao = ConexaoBanco.ObterConexao())
+            {
+                conexao.Open();
+                using (var comando = new SqlCommand(sql, conexao))
+                {
+                    return (int)comando.ExecuteScalar()!;
+                }
+            }
+        }
+
+        public static Onboarding? ObterProximoAgendado()
+        {
+            string sql = @"SELECT TOP 1 o.Id, o.IdColaborador, c.Nome AS NomeColaborador, o.DataInicio,
+                          o.Status, o.DataConclusao, o.Observacoes
+                   FROM Onboarding o
+                   INNER JOIN Colaboradores c ON c.Id = o.IdColaborador
+                   WHERE o.Status = 'Em Andamento' AND o.DataInicio >= CAST(GETDATE() AS DATE)
+                   ORDER BY o.DataInicio ASC, o.Id ASC";
+
+            using (var conexao = ConexaoBanco.ObterConexao())
+            {
+                conexao.Open();
+                using (var comando = new SqlCommand(sql, conexao))
+                using (var leitor = comando.ExecuteReader())
+                {
+                    if (leitor.Read())
+                    {
+                        return new Onboarding
+                        {
+                            Id = leitor.LerInteiro("Id"),
+                            IdColaborador = leitor.LerInteiro("IdColaborador"),
+                            NomeColaborador = leitor.LerTexto("NomeColaborador"),
+                            DataInicio = leitor.LerData("DataInicio"),
+                            Status = leitor.LerTexto("Status"),
+                            DataConclusao = leitor.LerDataOpcional("DataConclusao"),
+                            Observacoes = leitor.LerTexto("Observacoes")
+                        };
+                    }
+                }
+            }
+            return null;
+        }
+
         public static void Concluir(int id)
         {
             string sql = "UPDATE Onboarding SET Status = 'Concluido', DataConclusao = GETDATE() WHERE Id = @id";

@@ -12,7 +12,7 @@ namespace GuardiaoCincoS
         {
             InitializeComponent();
         }
-    
+
         private void btnEntrar_Click(object sender, EventArgs e)
         {
             string usuario = txtUsuario.Text.Trim();
@@ -73,7 +73,7 @@ namespace GuardiaoCincoS
             }
         }
 
-        
+
 
         private bool CompararBytes(byte[] a, byte[] b)
         {
@@ -84,14 +84,19 @@ namespace GuardiaoCincoS
         }
 
         private void btnFechar_Click(object sender, EventArgs e)
-        {            
+        {
             Application.Exit();
             Close();
         }
 
-
-
-
+        private void txtSenha_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                e.SuppressKeyPress = true;
+                btnEntrar.PerformClick();
+            }
+        }
     }
 
 }

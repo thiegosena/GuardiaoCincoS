@@ -95,6 +95,7 @@
             txtSenha.Size = new Size(161, 23);
             txtSenha.TabIndex = 3;
             txtSenha.UseSystemPasswordChar = true;
+            txtSenha.KeyDown += txtSenha_KeyDown;
             // 
             // btnEntrar
             // 

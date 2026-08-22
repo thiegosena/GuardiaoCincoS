@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmRondas));
             dgvRondas = new DataGridView();
             chkSomentePendentes = new CheckBox();
             label1 = new Label();
@@ -174,8 +175,10 @@
             Controls.Add(label1);
             Controls.Add(chkSomentePendentes);
             Controls.Add(dgvRondas);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "FrmRondas";
-            Text = "FrmRondas";
+            StartPosition = FormStartPosition.CenterScreen;
+            Text = "Rondas Internas";
             Load += FrmRondas_Load;
             ((System.ComponentModel.ISupportInitialize)dgvRondas).EndInit();
             ResumeLayout(false);

@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmEscala5SSemanal));
             label1 = new Label();
             dtpInicioSemana = new DateTimePicker();
             lblFimSemana = new Label();
@@ -101,8 +102,10 @@
             Controls.Add(lblFimSemana);
             Controls.Add(dtpInicioSemana);
             Controls.Add(label1);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "FrmEscala5SSemanal";
-            Text = "FrmEscala5SSemanal";
+            StartPosition = FormStartPosition.CenterScreen;
+            Text = "Escala 5S";
             Load += FrmEscala5SSemanal_Load;
             ResumeLayout(false);
             PerformLayout();

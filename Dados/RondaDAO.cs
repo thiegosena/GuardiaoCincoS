@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Microsoft.Data.SqlClient;
+using Microsoft.Data.Sqlite;
 using GuardiaoCincoS.Modelos;
 
 namespace GuardiaoCincoS.Dados
@@ -20,7 +20,7 @@ namespace GuardiaoCincoS.Dados
             using (var conexao = ConexaoBanco.ObterConexao())
             {
                 conexao.Open();
-                using (var comando = new SqlCommand(sql, conexao))
+                using (var comando = new SqliteCommand(sql, conexao))
                 using (var leitor = comando.ExecuteReader())
                 {
                     while (leitor.Read())
@@ -34,17 +34,18 @@ namespace GuardiaoCincoS.Dados
 
         public static Ronda? ObterUltimaConcluida()
         {
-            string sql = @"SELECT TOP 1 r.Id, r.Data, r.Tipo, r.IdColaboradorResponsavel, c.Nome AS NomeColaborador,
+            string sql = @"SELECT r.Id, r.Data, r.Tipo, r.IdColaboradorResponsavel, c.Nome AS NomeColaborador,
                                   r.Status, r.Observacoes, r.DataHoraConclusao
                            FROM Rondas r
                            INNER JOIN Colaboradores c ON c.Id = r.IdColaboradorResponsavel
                            WHERE r.Status = 'Concluida'
-                           ORDER BY r.DataHoraConclusao DESC";
+                           ORDER BY r.DataHoraConclusao DESC
+                           LIMIT 1";
 
             using (var conexao = ConexaoBanco.ObterConexao())
             {
                 conexao.Open();
-                using (var comando = new SqlCommand(sql, conexao))
+                using (var comando = new SqliteCommand(sql, conexao))
                 using (var leitor = comando.ExecuteReader())
                 {
                     if (leitor.Read()) return MapearLeitor(leitor);
@@ -55,17 +56,18 @@ namespace GuardiaoCincoS.Dados
 
         public static Ronda? ObterProximaPendente()
         {
-            string sql = @"SELECT TOP 1 r.Id, r.Data, r.Tipo, r.IdColaboradorResponsavel, c.Nome AS NomeColaborador,
+            string sql = @"SELECT r.Id, r.Data, r.Tipo, r.IdColaboradorResponsavel, c.Nome AS NomeColaborador,
                                   r.Status, r.Observacoes, r.DataHoraConclusao
                            FROM Rondas r
                            INNER JOIN Colaboradores c ON c.Id = r.IdColaboradorResponsavel
                            WHERE r.Status = 'Pendente'
-                           ORDER BY r.Data ASC, r.Id ASC";
+                           ORDER BY r.Data ASC, r.Id ASC
+                           LIMIT 1";
 
             using (var conexao = ConexaoBanco.ObterConexao())
             {
                 conexao.Open();
-                using (var comando = new SqlCommand(sql, conexao))
+                using (var comando = new SqliteCommand(sql, conexao))
                 using (var leitor = comando.ExecuteReader())
                 {
                     if (leitor.Read()) return MapearLeitor(leitor);
@@ -74,7 +76,7 @@ namespace GuardiaoCincoS.Dados
             return null;
         }
 
-        private static Ronda MapearLeitor(SqlDataReader leitor)
+        private static Ronda MapearLeitor(SqliteDataReader leitor)
         {
             return new Ronda
             {
@@ -96,7 +98,7 @@ namespace GuardiaoCincoS.Dados
             using (var conexao = ConexaoBanco.ObterConexao())
             {
                 conexao.Open();
-                using (var comando = new SqlCommand(sql, conexao))
+                using (var comando = new SqliteCommand(sql, conexao))
                 {
                     comando.Parameters.AddWithValue("@data", r.Data.Date);
                     comando.Parameters.AddWithValue("@tipo", r.Tipo);
@@ -109,12 +111,13 @@ namespace GuardiaoCincoS.Dados
 
         public static void Concluir(int id, string observacoes)
         {
-            string sql = @"UPDATE Rondas SET Status = 'Concluida', Observacoes = @obs, DataHoraConclusao = GETDATE()
+            string sql = @"UPDATE Rondas SET Status = 'Concluida', Observacoes = @obs,
+                           DataHoraConclusao = datetime('now','localtime')
                            WHERE Id = @id";
             using (var conexao = ConexaoBanco.ObterConexao())
             {
                 conexao.Open();
-                using (var comando = new SqlCommand(sql, conexao))
+                using (var comando = new SqliteCommand(sql, conexao))
                 {
                     comando.Parameters.AddWithValue("@obs", observacoes.ValorOuNulo());
                     comando.Parameters.AddWithValue("@id", id);

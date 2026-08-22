@@ -30,6 +30,8 @@
         {
             components = new System.ComponentModel.Container();
             pnlCabecalho = new Panel();
+            btnWhatsApp = new Button();
+            btnExportarPdf = new Button();
             btnAtualizarDashboard = new Button();
             lblDataHora = new Label();
             lblSaudacao = new Label();
@@ -48,6 +50,8 @@
             // pnlCabecalho
             // 
             pnlCabecalho.BackColor = Color.FromArgb(27, 42, 74);
+            pnlCabecalho.Controls.Add(btnWhatsApp);
+            pnlCabecalho.Controls.Add(btnExportarPdf);
             pnlCabecalho.Controls.Add(btnAtualizarDashboard);
             pnlCabecalho.Controls.Add(lblDataHora);
             pnlCabecalho.Controls.Add(lblSaudacao);
@@ -57,10 +61,32 @@
             pnlCabecalho.Size = new Size(1094, 80);
             pnlCabecalho.TabIndex = 0;
             // 
+            // btnWhatsApp
+            // 
+            btnWhatsApp.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            btnWhatsApp.Location = new Point(594, 24);
+            btnWhatsApp.Name = "btnWhatsApp";
+            btnWhatsApp.Size = new Size(114, 23);
+            btnWhatsApp.TabIndex = 4;
+            btnWhatsApp.Text = "Enviar WhatsApp";
+            btnWhatsApp.UseVisualStyleBackColor = true;
+            btnWhatsApp.Click += btnWhatsApp_Click;
+            // 
+            // btnExportarPdf
+            // 
+            btnExportarPdf.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            btnExportarPdf.Location = new Point(752, 24);
+            btnExportarPdf.Name = "btnExportarPdf";
+            btnExportarPdf.Size = new Size(92, 23);
+            btnExportarPdf.TabIndex = 3;
+            btnExportarPdf.Text = "Exportar PDF";
+            btnExportarPdf.UseVisualStyleBackColor = true;
+            btnExportarPdf.Click += btnExportarPdf_Click;
+            // 
             // btnAtualizarDashboard
             // 
             btnAtualizarDashboard.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            btnAtualizarDashboard.Location = new Point(769, 24);
+            btnAtualizarDashboard.Location = new Point(900, 24);
             btnAtualizarDashboard.Name = "btnAtualizarDashboard";
             btnAtualizarDashboard.Size = new Size(75, 23);
             btnAtualizarDashboard.TabIndex = 2;
@@ -110,7 +136,7 @@
             splitCorpo.Panel1.Controls.Add(dgvPendencias);
             splitCorpo.Panel1.Controls.Add(lblTituloPendencias);
             splitCorpo.Size = new Size(1094, 389);
-            splitCorpo.SplitterDistance = 600;
+            splitCorpo.SplitterDistance = 622;
             splitCorpo.TabIndex = 2;
             // 
             // dgvPendencias
@@ -119,7 +145,7 @@
             dgvPendencias.Dock = DockStyle.Fill;
             dgvPendencias.Location = new Point(0, 34);
             dgvPendencias.Name = "dgvPendencias";
-            dgvPendencias.Size = new Size(600, 355);
+            dgvPendencias.Size = new Size(622, 355);
             dgvPendencias.TabIndex = 1;
             // 
             // lblTituloPendencias
@@ -127,7 +153,7 @@
             lblTituloPendencias.Dock = DockStyle.Top;
             lblTituloPendencias.Location = new Point(0, 0);
             lblTituloPendencias.Name = "lblTituloPendencias";
-            lblTituloPendencias.Size = new Size(600, 34);
+            lblTituloPendencias.Size = new Size(622, 34);
             lblTituloPendencias.TabIndex = 0;
             lblTituloPendencias.Text = "Pendências dos Guardiões";
             lblTituloPendencias.TextAlign = ContentAlignment.MiddleLeft;
@@ -167,5 +193,7 @@
         private Label lblTituloPendencias;
         private DataGridView dgvPendencias;
         private System.Windows.Forms.Timer tmrRelogio;
+        private Button btnWhatsApp;
+        private Button btnExportarPdf;
     }
 }

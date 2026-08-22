@@ -1,6 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.Data.SqlClient;
+﻿using System.Collections.Generic;
+using Microsoft.Data.Sqlite;
 using GuardiaoCincoS.Modelos;
 
 namespace GuardiaoCincoS.Dados
@@ -18,7 +17,7 @@ namespace GuardiaoCincoS.Dados
             using (var conexao = ConexaoBanco.ObterConexao())
             {
                 conexao.Open();
-                using (var comando = new SqlCommand(sql, conexao))
+                using (var comando = new SqliteCommand(sql, conexao))
                 using (var leitor = comando.ExecuteReader())
                 {
                     while (leitor.Read())
@@ -48,7 +47,7 @@ namespace GuardiaoCincoS.Dados
             using (var conexao = ConexaoBanco.ObterConexao())
             {
                 conexao.Open();
-                using (var comando = new SqlCommand(sql, conexao))
+                using (var comando = new SqliteCommand(sql, conexao))
                 {
                     comando.Parameters.AddWithValue("@titulo", m.Titulo);
                     comando.Parameters.AddWithValue("@categoria", m.Categoria);
@@ -71,7 +70,7 @@ namespace GuardiaoCincoS.Dados
             using (var conexao = ConexaoBanco.ObterConexao())
             {
                 conexao.Open();
-                using (var comando = new SqlCommand(sql, conexao))
+                using (var comando = new SqliteCommand(sql, conexao))
                 {
                     comando.Parameters.AddWithValue("@titulo", m.Titulo);
                     comando.Parameters.AddWithValue("@categoria", m.Categoria);
@@ -90,7 +89,7 @@ namespace GuardiaoCincoS.Dados
             using (var conexao = ConexaoBanco.ObterConexao())
             {
                 conexao.Open();
-                using (var comando = new SqlCommand(sql, conexao))
+                using (var comando = new SqliteCommand(sql, conexao))
                 {
                     comando.Parameters.AddWithValue("@id", id);
                     comando.ExecuteNonQuery();

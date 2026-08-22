@@ -1,12 +1,42 @@
 ﻿using System;
 using System.Collections.Generic;
-using Microsoft.Data.SqlClient;
+using Microsoft.Data.Sqlite;
 using GuardiaoCincoS.Modelos;
 
 namespace GuardiaoCincoS.Dados
 {
     public static class EscalaDAO
     {
+        public static List<Colaborador> ListarColaboradoresNaEscala(DateTime inicioSemana)
+        {
+            var lista = new List<Colaborador>();
+            string sql = @"SELECT c.Id, c.Nome
+                           FROM Colaboradores c
+                           INNER JOIN Escala5SSemanal e ON e.IdColaborador = c.Id
+                           WHERE e.DataInicioSemana = @inicio AND e.Ativo = 1";
+
+            using (var conexao = ConexaoBanco.ObterConexao())
+            {
+                conexao.Open();
+                using (var comando = new SqliteCommand(sql, conexao))
+                {
+                    comando.Parameters.AddWithValue("@inicio", inicioSemana.Date);
+                    using (var leitor = comando.ExecuteReader())
+                    {
+                        while (leitor.Read())
+                        {
+                            lista.Add(new Colaborador
+                            {
+                                Id = leitor.LerInteiro("Id"),
+                                Nome = leitor.LerTexto("Nome")
+                            });
+                        }
+                    }
+                }
+            }
+            return lista;
+        }
+
         public static List<Colaborador> ListarDisponiveisParaRonda(DateTime data)
         {
             DateTime inicioSemana = GuardiaoCincoS.Servicos.UtilData.ObterSegundaFeira(data);
@@ -23,7 +53,7 @@ namespace GuardiaoCincoS.Dados
             using (var conexao = ConexaoBanco.ObterConexao())
             {
                 conexao.Open();
-                using (var comando = new SqlCommand(sql, conexao))
+                using (var comando = new SqliteCommand(sql, conexao))
                 {
                     comando.Parameters.AddWithValue("@inicio", inicioSemana);
                     using (var leitor = comando.ExecuteReader())
@@ -52,7 +82,7 @@ namespace GuardiaoCincoS.Dados
                 conexao.Open();
 
                 string sqlDelete = "DELETE FROM Escala5SSemanal WHERE DataInicioSemana = @inicio";
-                using (var comandoDelete = new SqlCommand(sqlDelete, conexao))
+                using (var comandoDelete = new SqliteCommand(sqlDelete, conexao))
                 {
                     comandoDelete.Parameters.AddWithValue("@inicio", inicioSemana.Date);
                     comandoDelete.ExecuteNonQuery();
@@ -61,7 +91,7 @@ namespace GuardiaoCincoS.Dados
                 string sqlInsert = "INSERT INTO Escala5SSemanal (IdColaborador, DataInicioSemana, DataFimSemana, Ativo) VALUES (@id, @inicio, @fim, 1)";
                 foreach (var idColaborador in idsColaboradoresSelecionados)
                 {
-                    using (var comandoInsert = new SqlCommand(sqlInsert, conexao))
+                    using (var comandoInsert = new SqliteCommand(sqlInsert, conexao))
                     {
                         comandoInsert.Parameters.AddWithValue("@id", idColaborador);
                         comandoInsert.Parameters.AddWithValue("@inicio", inicioSemana.Date);

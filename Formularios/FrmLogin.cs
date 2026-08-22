@@ -1,7 +1,7 @@
 using GuardiaoCincoS.Dados;
 using GuardiaoCincoS.Servicos;
 using GuardiaoCincoS.Formularios;
-using Microsoft.Data.SqlClient;
+using Microsoft.Data.Sqlite;
 
 
 namespace GuardiaoCincoS
@@ -33,7 +33,7 @@ namespace GuardiaoCincoS
                FROM Usuarios u
                INNER JOIN Perfis p ON p.Id = u.IdPerfil
                WHERE u.NomeUsuario = @usuario AND u.Ativo = 1";
-                    using (var comando = new SqlCommand(sql, conexao))
+                    using (var comando = new SqliteCommand(sql, conexao))
                     {
                         comando.Parameters.AddWithValue("@usuario", usuario);
                         using (var leitor = comando.ExecuteReader())
@@ -95,6 +95,15 @@ namespace GuardiaoCincoS
             {
                 e.SuppressKeyPress = true;
                 btnEntrar.PerformClick();
+            }
+        }
+
+        private void txtUsuario_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                e.SuppressKeyPress = true;
+                txtSenha.Focus();
             }
         }
     }

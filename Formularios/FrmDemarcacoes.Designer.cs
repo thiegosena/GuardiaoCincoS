@@ -219,6 +219,7 @@
             Controls.Add(dgvDemarcacoes);
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "FrmDemarcacoes";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "Controle de Demarcações";
             Load += FrmDemarcacoes_Load;
             ((System.ComponentModel.ISupportInitialize)dgvDemarcacoes).EndInit();

@@ -1,5 +1,6 @@
 using System;
 using System.Windows.Forms;
+using GuardiaoCincoS.Dados;
 using GuardiaoCincoS.Formularios;
 
 namespace GuardiaoCincoS
@@ -10,6 +11,9 @@ namespace GuardiaoCincoS
         static void Main()
         {
             ApplicationConfiguration.Initialize();
+
+            // Cria o arquivo do banco (se ainda não existir) antes de mostrar qualquer tela.
+            ConexaoBanco.GarantirBancoCriado();
 
             bool continuarExecutando = true;
 

@@ -242,6 +242,7 @@
             Controls.Add(dgvMateriais);
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "FrmMateriais";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "Materiais - Estudo";
             Load += FrmMateriais_Load;
             ((System.ComponentModel.ISupportInitialize)dgvMateriais).EndInit();

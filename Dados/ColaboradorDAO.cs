@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Microsoft.Data.SqlClient;
+using Microsoft.Data.Sqlite;
 using GuardiaoCincoS.Modelos;
 
 namespace GuardiaoCincoS.Dados
@@ -17,7 +17,7 @@ namespace GuardiaoCincoS.Dados
             using (var conexao = ConexaoBanco.ObterConexao())
             {
                 conexao.Open();
-                using (var comando = new SqlCommand(sql, conexao))
+                using (var comando = new SqliteCommand(sql, conexao))
                 using (var leitor = comando.ExecuteReader())
                 {
                     while (leitor.Read())
@@ -42,7 +42,7 @@ namespace GuardiaoCincoS.Dados
             using (var conexao = ConexaoBanco.ObterConexao())
             {
                 conexao.Open();
-                using (var comando = new SqlCommand(sql, conexao))
+                using (var comando = new SqliteCommand(sql, conexao))
                 {
                     comando.Parameters.AddWithValue("@nome", c.Nome);
                     comando.Parameters.AddWithValue("@setor", c.Setor.ValorOuNulo());
@@ -58,11 +58,11 @@ namespace GuardiaoCincoS.Dados
             using (var conexao = ConexaoBanco.ObterConexao())
             {
                 conexao.Open();
-                using (var comando = new SqlCommand(sql, conexao))
+                using (var comando = new SqliteCommand(sql, conexao))
                 {
                     comando.Parameters.AddWithValue("@nome", c.Nome);
-                    comando.Parameters.AddWithValue("@setor", (object)c.Setor ?? DBNull.Value);
-                    comando.Parameters.AddWithValue("@turno", (object)c.Turno ?? DBNull.Value);
+                    comando.Parameters.AddWithValue("@setor", c.Setor.ValorOuNulo());
+                    comando.Parameters.AddWithValue("@turno", c.Turno.ValorOuNulo());
                     comando.Parameters.AddWithValue("@id", c.Id);
                     comando.ExecuteNonQuery();
                 }
@@ -75,7 +75,7 @@ namespace GuardiaoCincoS.Dados
             using (var conexao = ConexaoBanco.ObterConexao())
             {
                 conexao.Open();
-                using (var comando = new SqlCommand(sql, conexao))
+                using (var comando = new SqliteCommand(sql, conexao))
                 {
                     comando.Parameters.AddWithValue("@id", id);
                     comando.ExecuteNonQuery();

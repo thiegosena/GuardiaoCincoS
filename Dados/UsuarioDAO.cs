@@ -1,5 +1,6 @@
-﻿using System.Collections.Generic;
-using Microsoft.Data.SqlClient;
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.Data.Sqlite;
 using GuardiaoCincoS.Modelos;
 using GuardiaoCincoS.Servicos;
 
@@ -20,7 +21,7 @@ namespace GuardiaoCincoS.Dados
             using (var conexao = ConexaoBanco.ObterConexao())
             {
                 conexao.Open();
-                using (var comando = new SqlCommand(sql, conexao))
+                using (var comando = new SqliteCommand(sql, conexao))
                 using (var leitor = comando.ExecuteReader())
                 {
                     while (leitor.Read())
@@ -49,11 +50,11 @@ namespace GuardiaoCincoS.Dados
             using (var conexao = ConexaoBanco.ObterConexao())
             {
                 conexao.Open();
-                using (var comando = new SqlCommand(sql, conexao))
+                using (var comando = new SqliteCommand(sql, conexao))
                 {
                     comando.Parameters.AddWithValue("@nome", nomeUsuario);
                     comando.Parameters.AddWithValue("@idExcluir", idExcluir);
-                    int quantidade = (int)comando.ExecuteScalar()!;
+                    int quantidade = Convert.ToInt32(comando.ExecuteScalar());
                     return quantidade > 0;
                 }
             }
@@ -71,7 +72,7 @@ namespace GuardiaoCincoS.Dados
             using (var conexao = ConexaoBanco.ObterConexao())
             {
                 conexao.Open();
-                using (var comando = new SqlCommand(sql, conexao))
+                using (var comando = new SqliteCommand(sql, conexao))
                 {
                     comando.Parameters.AddWithValue("@nomeCompleto", u.NomeCompleto);
                     comando.Parameters.AddWithValue("@nomeUsuario", u.NomeUsuario);
@@ -95,7 +96,7 @@ namespace GuardiaoCincoS.Dados
             using (var conexao = ConexaoBanco.ObterConexao())
             {
                 conexao.Open();
-                using (var comando = new SqlCommand(sql, conexao))
+                using (var comando = new SqliteCommand(sql, conexao))
                 {
                     comando.Parameters.AddWithValue("@nomeCompleto", u.NomeCompleto);
                     comando.Parameters.AddWithValue("@nomeUsuario", u.NomeUsuario);
@@ -117,7 +118,7 @@ namespace GuardiaoCincoS.Dados
             using (var conexao = ConexaoBanco.ObterConexao())
             {
                 conexao.Open();
-                using (var comando = new SqlCommand(sql, conexao))
+                using (var comando = new SqliteCommand(sql, conexao))
                 {
                     comando.Parameters.AddWithValue("@hash", hash);
                     comando.Parameters.AddWithValue("@salt", salt);
@@ -133,7 +134,7 @@ namespace GuardiaoCincoS.Dados
             using (var conexao = ConexaoBanco.ObterConexao())
             {
                 conexao.Open();
-                using (var comando = new SqlCommand(sql, conexao))
+                using (var comando = new SqliteCommand(sql, conexao))
                 {
                     comando.Parameters.AddWithValue("@id", id);
                     comando.ExecuteNonQuery();
@@ -147,7 +148,7 @@ namespace GuardiaoCincoS.Dados
             using (var conexao = ConexaoBanco.ObterConexao())
             {
                 conexao.Open();
-                using (var comando = new SqlCommand(sql, conexao))
+                using (var comando = new SqliteCommand(sql, conexao))
                 {
                     comando.Parameters.AddWithValue("@id", id);
                     comando.ExecuteNonQuery();

@@ -10,7 +10,7 @@ using GuardiaoCincoS.Servicos;
 namespace GuardiaoCincoS.Controles
 {
     public partial class CtrlDashboard : UserControl
-    {        
+    {
         private CartaoSecao? _cartaoEscala5S;
         private Label? _lblValorEscala5S;
 
@@ -101,19 +101,19 @@ namespace GuardiaoCincoS.Controles
             dgvProximosEventos = new DataGridView { Dock = DockStyle.Fill };
             cartaoEventos.PainelConteudo.Controls.Add(dgvProximosEventos);
 
-          
+
             var espacador1 = new Panel { Dock = DockStyle.Top, Height = alturaEspacador, BackColor = EstiloVisual.FundoPagina };
             var espacador2 = new Panel { Dock = DockStyle.Top, Height = alturaEspacador, BackColor = EstiloVisual.FundoPagina };
             var espacador3 = new Panel { Dock = DockStyle.Top, Height = alturaEspacador, BackColor = EstiloVisual.FundoPagina };
 
-           
-            painelDireito.Controls.Add(cartaoEventos);      
+
+            painelDireito.Controls.Add(cartaoEventos);
             painelDireito.Controls.Add(espacador3);
             painelDireito.Controls.Add(_cartaoOnboarding);
             painelDireito.Controls.Add(espacador2);
             painelDireito.Controls.Add(_cartaoRondas);
             painelDireito.Controls.Add(espacador1);
-            painelDireito.Controls.Add(_cartaoEscala5S); 
+            painelDireito.Controls.Add(_cartaoEscala5S);
         }
 
         private void AplicarEstiloInicial()
@@ -131,6 +131,18 @@ namespace GuardiaoCincoS.Controles
             btnAtualizarDashboard.BackColor = Color.White;
             btnAtualizarDashboard.ForeColor = EstiloVisual.AzulMarinho;
             btnAtualizarDashboard.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+
+            btnExportarPdf.FlatStyle = FlatStyle.Flat;
+            btnExportarPdf.FlatAppearance.BorderSize = 0;
+            btnExportarPdf.BackColor = Color.White;
+            btnExportarPdf.ForeColor = EstiloVisual.AzulMarinho;
+            btnExportarPdf.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+
+            btnWhatsApp.FlatStyle = FlatStyle.Flat;
+            btnWhatsApp.FlatAppearance.BorderSize = 0;
+            btnWhatsApp.BackColor = EstiloVisual.Verde;
+            btnWhatsApp.ForeColor = Color.White;
+            btnWhatsApp.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
 
             lblTituloPendencias.Font = EstiloVisual.FonteSecao;
             lblTituloPendencias.ForeColor = EstiloVisual.AzulMarinho;
@@ -309,6 +321,43 @@ namespace GuardiaoCincoS.Controles
         private void btnAtualizarDashboard_Click(object sender, EventArgs e)
         {
             CarregarDados();
+        }
+
+        private void btnExportarPdf_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var pendencias = PendenciaDAO.ListarConsolidado();
+                string caminhoArquivo = RelatorioPdfService.GerarRelatorioPendencias(pendencias);
+
+                try
+                {
+                    RelatorioPdfService.AbrirArquivo(caminhoArquivo);
+                }
+                catch
+                {
+                    MessageBox.Show(
+                        $"PDF gerado com sucesso em:\n{caminhoArquivo}\n\n(Não foi possível abrir automaticamente — abra o arquivo manualmente.)",
+                        "PDF Gerado", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Não foi possível gerar o PDF: " + ex.Message, "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void btnWhatsApp_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var pendencias = PendenciaDAO.ListarConsolidado();
+                WhatsAppService.EnviarResumoPendencias(pendencias);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Não foi possível abrir o WhatsApp: " + ex.Message, "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }

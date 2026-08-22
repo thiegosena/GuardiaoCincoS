@@ -87,6 +87,7 @@
             txtUsuario.Name = "txtUsuario";
             txtUsuario.Size = new Size(161, 23);
             txtUsuario.TabIndex = 2;
+            txtUsuario.KeyDown += txtUsuario_KeyDown;
             // 
             // txtSenha
             // 
@@ -110,9 +111,9 @@
             // pictureBox1
             // 
             pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
-            pictureBox1.Location = new Point(128, 43);
+            pictureBox1.Location = new Point(124, 47);
             pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(82, 80);
+            pictureBox1.Size = new Size(87, 84);
             pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBox1.TabIndex = 5;
             pictureBox1.TabStop = false;
@@ -151,11 +152,11 @@
             // 
             label5.AutoSize = true;
             label5.Font = new Font("Segoe UI", 22F, FontStyle.Bold);
-            label5.Location = new Point(123, -2);
+            label5.Location = new Point(79, -2);
             label5.Name = "label5";
-            label5.Size = new Size(97, 41);
+            label5.Size = new Size(189, 41);
             label5.TabIndex = 13;
-            label5.Text = "Login";
+            label5.Text = "Guardião 5S";
             // 
             // btnFechar
             // 

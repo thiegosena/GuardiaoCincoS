@@ -361,3 +361,13 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+# Arquivos locais com dados sensiveis de banco de dados
+.env
+.env.local
+.env.development
+appsettings.Development.json
+appsettings.Local.json
+
+# Arquivo local contendo credenciais de banco de dados
+Dados/ConexaoBanco.cs

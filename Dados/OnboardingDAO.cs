@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Microsoft.Data.Sqlite;
+using Microsoft.Data.SqlClient;
 using GuardiaoCincoS.Modelos;
 
 namespace GuardiaoCincoS.Dados
@@ -19,7 +19,7 @@ namespace GuardiaoCincoS.Dados
             using (var conexao = ConexaoBanco.ObterConexao())
             {
                 conexao.Open();
-                using (var comando = new SqliteCommand(sql, conexao))
+                using (var comando = new SqlCommand(sql, conexao))
                 using (var leitor = comando.ExecuteReader())
                 {
                     while (leitor.Read())
@@ -50,27 +50,23 @@ namespace GuardiaoCincoS.Dados
                     try
                     {
                         string sqlCabecalho = @"INSERT INTO Onboarding (IdColaborador, DataInicio, Status, IdUsuarioRegistro)
+                                                 OUTPUT INSERTED.Id
                                                  VALUES (@idColaborador, @dataInicio, 'Em Andamento', @idUsuario)";
 
-                        using (var comando = new SqliteCommand(sqlCabecalho, conexao, transacao))
+                        int idOnboardingGerado;
+                        using (var comando = new SqlCommand(sqlCabecalho, conexao, transacao))
                         {
                             comando.Parameters.AddWithValue("@idColaborador", cabecalho.IdColaborador);
                             comando.Parameters.AddWithValue("@dataInicio", cabecalho.DataInicio.Date);
                             comando.Parameters.AddWithValue("@idUsuario", idUsuarioRegistro);
-                            comando.ExecuteNonQuery();
-                        }
-
-                        int idOnboardingGerado;
-                        using (var comandoId = new SqliteCommand("SELECT last_insert_rowid();", conexao, transacao))
-                        {
-                            idOnboardingGerado = Convert.ToInt32(comandoId.ExecuteScalar());
+                            idOnboardingGerado = (int)comando.ExecuteScalar()!;
                         }
 
                         string sqlItem = @"INSERT INTO ItensOnboarding (IdOnboarding, Descricao, Concluido)
                                             VALUES (@idOnboarding, @descricao, 0)";
                         foreach (var descricao in itensPadrao)
                         {
-                            using (var comando = new SqliteCommand(sqlItem, conexao, transacao))
+                            using (var comando = new SqlCommand(sqlItem, conexao, transacao))
                             {
                                 comando.Parameters.AddWithValue("@idOnboarding", idOnboardingGerado);
                                 comando.Parameters.AddWithValue("@descricao", descricao);
@@ -95,10 +91,10 @@ namespace GuardiaoCincoS.Dados
             using (var conexao = ConexaoBanco.ObterConexao())
             {
                 conexao.Open();
-                using (var comando = new SqliteCommand(sql, conexao))
+                using (var comando = new SqlCommand(sql, conexao))
                 {
                     comando.Parameters.AddWithValue("@id", idOnboarding);
-                    return Convert.ToInt32(comando.ExecuteScalar());
+                    return (int)comando.ExecuteScalar()!;
                 }
             }
         }
@@ -109,27 +105,26 @@ namespace GuardiaoCincoS.Dados
             using (var conexao = ConexaoBanco.ObterConexao())
             {
                 conexao.Open();
-                using (var comando = new SqliteCommand(sql, conexao))
+                using (var comando = new SqlCommand(sql, conexao))
                 {
-                    return Convert.ToInt32(comando.ExecuteScalar());
+                    return (int)comando.ExecuteScalar()!;
                 }
             }
         }
 
         public static Onboarding? ObterProximoAgendado()
         {
-            string sql = @"SELECT o.Id, o.IdColaborador, c.Nome AS NomeColaborador, o.DataInicio,
+            string sql = @"SELECT TOP 1 o.Id, o.IdColaborador, c.Nome AS NomeColaborador, o.DataInicio,
                           o.Status, o.DataConclusao, o.Observacoes
                    FROM Onboarding o
                    INNER JOIN Colaboradores c ON c.Id = o.IdColaborador
-                   WHERE o.Status = 'Em Andamento' AND o.DataInicio >= date('now','localtime')
-                   ORDER BY o.DataInicio ASC, o.Id ASC
-                   LIMIT 1";
+                   WHERE o.Status = 'Em Andamento' AND o.DataInicio >= CAST(GETDATE() AS DATE)
+                   ORDER BY o.DataInicio ASC, o.Id ASC";
 
             using (var conexao = ConexaoBanco.ObterConexao())
             {
                 conexao.Open();
-                using (var comando = new SqliteCommand(sql, conexao))
+                using (var comando = new SqlCommand(sql, conexao))
                 using (var leitor = comando.ExecuteReader())
                 {
                     if (leitor.Read())
@@ -152,11 +147,11 @@ namespace GuardiaoCincoS.Dados
 
         public static void Concluir(int id)
         {
-            string sql = "UPDATE Onboarding SET Status = 'Concluido', DataConclusao = datetime('now','localtime') WHERE Id = @id";
+            string sql = "UPDATE Onboarding SET Status = 'Concluido', DataConclusao = GETDATE() WHERE Id = @id";
             using (var conexao = ConexaoBanco.ObterConexao())
             {
                 conexao.Open();
-                using (var comando = new SqliteCommand(sql, conexao))
+                using (var comando = new SqlCommand(sql, conexao))
                 {
                     comando.Parameters.AddWithValue("@id", id);
                     comando.ExecuteNonQuery();

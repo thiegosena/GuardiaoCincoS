@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Microsoft.Data.Sqlite;
+using Microsoft.Data.SqlClient;
 using GuardiaoCincoS.Modelos;
 
 namespace GuardiaoCincoS.Dados
@@ -18,7 +18,7 @@ namespace GuardiaoCincoS.Dados
             using (var conexao = ConexaoBanco.ObterConexao())
             {
                 conexao.Open();
-                using (var comando = new SqliteCommand(sql, conexao))
+                using (var comando = new SqlCommand(sql, conexao))
                 {
                     comando.Parameters.AddWithValue("@id", idOnboarding);
                     using (var leitor = comando.ExecuteReader())
@@ -44,13 +44,13 @@ namespace GuardiaoCincoS.Dados
         {
             string sql = @"UPDATE ItensOnboarding
                            SET Concluido = @concluido,
-                               DataConclusaoItem = CASE WHEN @concluido = 1 THEN datetime('now','localtime') ELSE NULL END
+                               DataConclusaoItem = CASE WHEN @concluido = 1 THEN GETDATE() ELSE NULL END
                            WHERE Id = @id";
 
             using (var conexao = ConexaoBanco.ObterConexao())
             {
                 conexao.Open();
-                using (var comando = new SqliteCommand(sql, conexao))
+                using (var comando = new SqlCommand(sql, conexao))
                 {
                     comando.Parameters.AddWithValue("@concluido", concluido);
                     comando.Parameters.AddWithValue("@id", idItem);

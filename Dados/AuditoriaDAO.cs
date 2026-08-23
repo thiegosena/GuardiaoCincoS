@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Microsoft.Data.Sqlite;
+using Microsoft.Data.SqlClient;
 using GuardiaoCincoS.Modelos;
 
 namespace GuardiaoCincoS.Dados
@@ -21,7 +21,7 @@ namespace GuardiaoCincoS.Dados
             using (var conexao = ConexaoBanco.ObterConexao())
             {
                 conexao.Open();
-                using (var comando = new SqliteCommand(sql, conexao))
+                using (var comando = new SqlCommand(sql, conexao))
                 using (var leitor = comando.ExecuteReader())
                 {
                     while (leitor.Read())
@@ -35,7 +35,7 @@ namespace GuardiaoCincoS.Dados
                             NomeAuditor = leitor.LerTexto("NomeAuditor"),
                             IdColaboradorAcompanhante = leitor.LerInteiroOpcional("IdColaboradorAcompanhante"),
                             NomeAcompanhante = leitor.LerTexto("NomeAcompanhante"),
-                            PontuacaoTotal = (decimal)leitor.GetDouble(leitor.GetOrdinal("PontuacaoTotal")),
+                            PontuacaoTotal = leitor.GetDecimal(leitor.GetOrdinal("PontuacaoTotal")),
                             ObservacoesGerais = leitor.LerTexto("ObservacoesGerais"),
                             DataHoraRegistro = leitor.LerData("DataHoraRegistro")
                         });
@@ -57,9 +57,11 @@ namespace GuardiaoCincoS.Dados
                     {
                         string sqlCabecalho = @"INSERT INTO Auditorias
                                 (Data, Setor, IdColaboradorAuditor, IdColaboradorAcompanhante, PontuacaoTotal, ObservacoesGerais, IdUsuarioRegistro)
+                                OUTPUT INSERTED.Id
                                 VALUES (@data, @setor, @idAuditor, @idAcompanhante, @pontuacao, @obs, @idUsuario)";
 
-                        using (var comando = new SqliteCommand(sqlCabecalho, conexao, transacao))
+                        int idAuditoriaGerada;
+                        using (var comando = new SqlCommand(sqlCabecalho, conexao, transacao))
                         {
                             comando.Parameters.AddWithValue("@data", cabecalho.Data.Date);
                             comando.Parameters.AddWithValue("@setor", cabecalho.Setor);
@@ -68,20 +70,14 @@ namespace GuardiaoCincoS.Dados
                             comando.Parameters.AddWithValue("@pontuacao", cabecalho.PontuacaoTotal);
                             comando.Parameters.AddWithValue("@obs", cabecalho.ObservacoesGerais.ValorOuNulo());
                             comando.Parameters.AddWithValue("@idUsuario", idUsuarioRegistro);
-                            comando.ExecuteNonQuery();
-                        }
-
-                        int idAuditoriaGerada;
-                        using (var comandoId = new SqliteCommand("SELECT last_insert_rowid();", conexao, transacao))
-                        {
-                            idAuditoriaGerada = Convert.ToInt32(comandoId.ExecuteScalar());
+                            idAuditoriaGerada = (int)comando.ExecuteScalar()!;
                         }
 
                         string sqlItem = @"INSERT INTO ItensAuditoria (IdAuditoria, Senso, Nota, Observacao)
                                             VALUES (@idAuditoria, @senso, @nota, @observacao)";
                         foreach (var item in itensChecklist)
                         {
-                            using (var comando = new SqliteCommand(sqlItem, conexao, transacao))
+                            using (var comando = new SqlCommand(sqlItem, conexao, transacao))
                             {
                                 comando.Parameters.AddWithValue("@idAuditoria", idAuditoriaGerada);
                                 comando.Parameters.AddWithValue("@senso", item.Senso);
@@ -95,7 +91,7 @@ namespace GuardiaoCincoS.Dados
                                              VALUES (@idAuditoria, @local, @vencimento, 'Pendente')";
                         foreach (var placa in placas)
                         {
-                            using (var comando = new SqliteCommand(sqlPlaca, conexao, transacao))
+                            using (var comando = new SqlCommand(sqlPlaca, conexao, transacao))
                             {
                                 comando.Parameters.AddWithValue("@idAuditoria", idAuditoriaGerada);
                                 comando.Parameters.AddWithValue("@local", placa.LocalPlaca);
@@ -108,7 +104,7 @@ namespace GuardiaoCincoS.Dados
                                                     VALUES (@idAuditoria, @descricao, @prazo, 'Pendente')";
                         foreach (var itemCorrecao in itensCorrecao)
                         {
-                            using (var comando = new SqliteCommand(sqlItemCorrecao, conexao, transacao))
+                            using (var comando = new SqlCommand(sqlItemCorrecao, conexao, transacao))
                             {
                                 comando.Parameters.AddWithValue("@idAuditoria", idAuditoriaGerada);
                                 comando.Parameters.AddWithValue("@descricao", itemCorrecao.Descricao);

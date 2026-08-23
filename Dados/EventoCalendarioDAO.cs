@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Microsoft.Data.Sqlite;
+using Microsoft.Data.SqlClient;
 using GuardiaoCincoS.Modelos;
 
 namespace GuardiaoCincoS.Dados
@@ -17,13 +17,13 @@ namespace GuardiaoCincoS.Dados
                            WHERE 1 = 1";
 
             if (!incluirCancelados) sql += " AND e.Status <> 'Cancelado'";
-            if (apenasFuturos) sql += " AND e.DataFim >= date('now','localtime')";
+            if (apenasFuturos) sql += " AND e.DataFim >= CAST(GETDATE() AS DATE)";
             sql += " ORDER BY e.DataInicio ASC, e.Id ASC";
 
             using (var conexao = ConexaoBanco.ObterConexao())
             {
                 conexao.Open();
-                using (var comando = new SqliteCommand(sql, conexao))
+                using (var comando = new SqlCommand(sql, conexao))
                 using (var leitor = comando.ExecuteReader())
                 {
                     while (leitor.Read())
@@ -50,7 +50,7 @@ namespace GuardiaoCincoS.Dados
             using (var conexao = ConexaoBanco.ObterConexao())
             {
                 conexao.Open();
-                using (var comando = new SqliteCommand(sql, conexao))
+                using (var comando = new SqlCommand(sql, conexao))
                 {
                     comando.Parameters.AddWithValue("@data", data.Date);
                     using (var leitor = comando.ExecuteReader())
@@ -73,7 +73,7 @@ namespace GuardiaoCincoS.Dados
             using (var conexao = ConexaoBanco.ObterConexao())
             {
                 conexao.Open();
-                using (var comando = new SqliteCommand(sql, conexao))
+                using (var comando = new SqlCommand(sql, conexao))
                 using (var leitor = comando.ExecuteReader())
                 {
                     while (leitor.Read())
@@ -90,7 +90,7 @@ namespace GuardiaoCincoS.Dados
             return datas;
         }
 
-        private static EventoCalendario MapearLeitor(SqliteDataReader leitor)
+        private static EventoCalendario MapearLeitor(SqlDataReader leitor)
         {
             return new EventoCalendario
             {
@@ -116,13 +116,13 @@ namespace GuardiaoCincoS.Dados
                    LEFT JOIN Colaboradores c ON c.Id = e.IdColaboradorResponsavel
                    WHERE e.Status <> 'Cancelado'
                      AND e.DataInicio <= @dataLimite
-                     AND e.DataFim >= date('now','localtime')
+                     AND e.DataFim >= CAST(GETDATE() AS DATE)
                    ORDER BY e.DataInicio ASC";
 
             using (var conexao = ConexaoBanco.ObterConexao())
             {
                 conexao.Open();
-                using (var comando = new SqliteCommand(sql, conexao))
+                using (var comando = new SqlCommand(sql, conexao))
                 {
                     comando.Parameters.AddWithValue("@dataLimite", DateTime.Today.AddDays(diasAFrente));
                     using (var leitor = comando.ExecuteReader())
@@ -146,7 +146,7 @@ namespace GuardiaoCincoS.Dados
             using (var conexao = ConexaoBanco.ObterConexao())
             {
                 conexao.Open();
-                using (var comando = new SqliteCommand(sql, conexao))
+                using (var comando = new SqlCommand(sql, conexao))
                 {
                     comando.Parameters.AddWithValue("@titulo", ev.Titulo);
                     comando.Parameters.AddWithValue("@tipo", ev.Tipo);
@@ -171,7 +171,7 @@ namespace GuardiaoCincoS.Dados
             using (var conexao = ConexaoBanco.ObterConexao())
             {
                 conexao.Open();
-                using (var comando = new SqliteCommand(sql, conexao))
+                using (var comando = new SqlCommand(sql, conexao))
                 {
                     comando.Parameters.AddWithValue("@titulo", ev.Titulo);
                     comando.Parameters.AddWithValue("@tipo", ev.Tipo);
@@ -192,7 +192,7 @@ namespace GuardiaoCincoS.Dados
             using (var conexao = ConexaoBanco.ObterConexao())
             {
                 conexao.Open();
-                using (var comando = new SqliteCommand(sql, conexao))
+                using (var comando = new SqlCommand(sql, conexao))
                 {
                     comando.Parameters.AddWithValue("@id", id);
                     comando.ExecuteNonQuery();
@@ -206,7 +206,7 @@ namespace GuardiaoCincoS.Dados
             using (var conexao = ConexaoBanco.ObterConexao())
             {
                 conexao.Open();
-                using (var comando = new SqliteCommand(sql, conexao))
+                using (var comando = new SqlCommand(sql, conexao))
                 {
                     comando.Parameters.AddWithValue("@id", id);
                     comando.ExecuteNonQuery();

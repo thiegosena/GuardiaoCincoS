@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Microsoft.Data.Sqlite;
+using Microsoft.Data.SqlClient;
 using GuardiaoCincoS.Modelos;
 
 namespace GuardiaoCincoS.Dados
@@ -18,7 +18,7 @@ namespace GuardiaoCincoS.Dados
             using (var conexao = ConexaoBanco.ObterConexao())
             {
                 conexao.Open();
-                using (var comando = new SqliteCommand(sql, conexao))
+                using (var comando = new SqlCommand(sql, conexao))
                 {
                     comando.Parameters.AddWithValue("@inicio", inicioSemana.Date);
                     using (var leitor = comando.ExecuteReader())
@@ -53,7 +53,7 @@ namespace GuardiaoCincoS.Dados
             using (var conexao = ConexaoBanco.ObterConexao())
             {
                 conexao.Open();
-                using (var comando = new SqliteCommand(sql, conexao))
+                using (var comando = new SqlCommand(sql, conexao))
                 {
                     comando.Parameters.AddWithValue("@inicio", inicioSemana);
                     using (var leitor = comando.ExecuteReader())
@@ -82,7 +82,7 @@ namespace GuardiaoCincoS.Dados
                 conexao.Open();
 
                 string sqlDelete = "DELETE FROM Escala5SSemanal WHERE DataInicioSemana = @inicio";
-                using (var comandoDelete = new SqliteCommand(sqlDelete, conexao))
+                using (var comandoDelete = new SqlCommand(sqlDelete, conexao))
                 {
                     comandoDelete.Parameters.AddWithValue("@inicio", inicioSemana.Date);
                     comandoDelete.ExecuteNonQuery();
@@ -91,7 +91,7 @@ namespace GuardiaoCincoS.Dados
                 string sqlInsert = "INSERT INTO Escala5SSemanal (IdColaborador, DataInicioSemana, DataFimSemana, Ativo) VALUES (@id, @inicio, @fim, 1)";
                 foreach (var idColaborador in idsColaboradoresSelecionados)
                 {
-                    using (var comandoInsert = new SqliteCommand(sqlInsert, conexao))
+                    using (var comandoInsert = new SqlCommand(sqlInsert, conexao))
                     {
                         comandoInsert.Parameters.AddWithValue("@id", idColaborador);
                         comandoInsert.Parameters.AddWithValue("@inicio", inicioSemana.Date);

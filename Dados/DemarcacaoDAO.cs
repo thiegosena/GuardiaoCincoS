@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Microsoft.Data.Sqlite;
+using Microsoft.Data.SqlClient;
 using GuardiaoCincoS.Modelos;
 
 namespace GuardiaoCincoS.Dados
@@ -21,7 +21,7 @@ namespace GuardiaoCincoS.Dados
             using (var conexao = ConexaoBanco.ObterConexao())
             {
                 conexao.Open();
-                using (var comando = new SqliteCommand(sql, conexao))
+                using (var comando = new SqlCommand(sql, conexao))
                 using (var leitor = comando.ExecuteReader())
                 {
                     while (leitor.Read())
@@ -54,7 +54,7 @@ namespace GuardiaoCincoS.Dados
             using (var conexao = ConexaoBanco.ObterConexao())
             {
                 conexao.Open();
-                using (var comando = new SqliteCommand(sql, conexao))
+                using (var comando = new SqlCommand(sql, conexao))
                 {
                     comando.Parameters.AddWithValue("@local", d.Local);
                     comando.Parameters.AddWithValue("@descricao", d.Descricao.ValorOuNulo());
@@ -70,13 +70,13 @@ namespace GuardiaoCincoS.Dados
         public static void Concluir(int id, string observacoesConclusao)
         {
             string sql = @"UPDATE Demarcacoes
-                           SET Status = 'Concluida', DataConclusao = datetime('now','localtime'), ObservacoesConclusao = @obs
+                           SET Status = 'Concluida', DataConclusao = GETDATE(), ObservacoesConclusao = @obs
                            WHERE Id = @id";
 
             using (var conexao = ConexaoBanco.ObterConexao())
             {
                 conexao.Open();
-                using (var comando = new SqliteCommand(sql, conexao))
+                using (var comando = new SqlCommand(sql, conexao))
                 {
                     comando.Parameters.AddWithValue("@obs", observacoesConclusao.ValorOuNulo());
                     comando.Parameters.AddWithValue("@id", id);

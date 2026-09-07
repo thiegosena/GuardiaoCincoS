@@ -4,6 +4,7 @@ namespace GuardiaoCincoS.Modelos
 {
     public class ItemPendencia
     {
+        public int Id { get; set; }
         public string Origem { get; set; } = string.Empty;
         public string LocalOuSetor { get; set; } = string.Empty;
         public string Descricao { get; set; } = string.Empty;

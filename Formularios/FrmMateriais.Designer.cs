@@ -30,16 +30,11 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmMateriais));
             dgvMateriais = new DataGridView();
-            label1 = new Label();
             txtTituloMaterial = new TextBox();
-            label2 = new Label();
             cboCategoriaMaterial = new ComboBox();
             txtDescricaoMaterial = new TextBox();
-            label3 = new Label();
-            label4 = new Label();
             txtCaminhoOuLink = new TextBox();
             btnSelecionarArquivo = new Button();
-            label5 = new Label();
             dtpDataPublicacaoMaterial = new DateTimePicker();
             btnCadastrarMaterial = new Button();
             btnAcessarMaterial = new Button();
@@ -62,30 +57,12 @@
             dgvMateriais.TabIndex = 0;
             dgvMateriais.CellClick += dgvMateriais_CellClick;
             // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.Location = new Point(12, 162);
-            label1.Name = "label1";
-            label1.Size = new Size(38, 15);
-            label1.TabIndex = 1;
-            label1.Text = "Título";
-            // 
             // txtTituloMaterial
             // 
             txtTituloMaterial.Location = new Point(56, 156);
             txtTituloMaterial.Name = "txtTituloMaterial";
             txtTituloMaterial.Size = new Size(276, 23);
             txtTituloMaterial.TabIndex = 2;
-            // 
-            // label2
-            // 
-            label2.AutoSize = true;
-            label2.Location = new Point(12, 197);
-            label2.Name = "label2";
-            label2.Size = new Size(58, 15);
-            label2.TabIndex = 3;
-            label2.Text = "Categoria";
             // 
             // cboCategoriaMaterial
             // 
@@ -104,24 +81,6 @@
             txtDescricaoMaterial.Size = new Size(365, 86);
             txtDescricaoMaterial.TabIndex = 6;
             // 
-            // label3
-            // 
-            label3.AutoSize = true;
-            label3.Location = new Point(359, 162);
-            label3.Name = "label3";
-            label3.Size = new Size(58, 15);
-            label3.TabIndex = 5;
-            label3.Text = "Descrição";
-            // 
-            // label4
-            // 
-            label4.AutoSize = true;
-            label4.Location = new Point(12, 257);
-            label4.Name = "label4";
-            label4.Size = new Size(91, 15);
-            label4.TabIndex = 7;
-            label4.Text = "Arquivo ou Link";
-            // 
             // txtCaminhoOuLink
             // 
             txtCaminhoOuLink.Location = new Point(109, 254);
@@ -138,15 +97,6 @@
             btnSelecionarArquivo.Text = "Selecionar Arquivo...";
             btnSelecionarArquivo.UseVisualStyleBackColor = true;
             btnSelecionarArquivo.Click += btnSelecionarArquivo_Click;
-            // 
-            // label5
-            // 
-            label5.AutoSize = true;
-            label5.Location = new Point(12, 301);
-            label5.Name = "label5";
-            label5.Size = new Size(108, 15);
-            label5.TabIndex = 10;
-            label5.Text = "Data de publicação";
             // 
             // dtpDataPublicacaoMaterial
             // 
@@ -221,7 +171,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(934, 811);
             Controls.Add(btnNovoMaterial);
             Controls.Add(btnCancelarEdicao);
             Controls.Add(btnEditarMaterial);
@@ -229,16 +179,11 @@
             Controls.Add(btnAcessarMaterial);
             Controls.Add(btnCadastrarMaterial);
             Controls.Add(dtpDataPublicacaoMaterial);
-            Controls.Add(label5);
             Controls.Add(btnSelecionarArquivo);
             Controls.Add(txtCaminhoOuLink);
-            Controls.Add(label4);
             Controls.Add(txtDescricaoMaterial);
-            Controls.Add(label3);
             Controls.Add(cboCategoriaMaterial);
-            Controls.Add(label2);
             Controls.Add(txtTituloMaterial);
-            Controls.Add(label1);
             Controls.Add(dgvMateriais);
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "FrmMateriais";
@@ -253,16 +198,11 @@
         #endregion
 
         private DataGridView dgvMateriais;
-        private Label label1;
         private TextBox txtTituloMaterial;
-        private Label label2;
         private ComboBox cboCategoriaMaterial;
         private TextBox txtDescricaoMaterial;
-        private Label label3;
-        private Label label4;
         private TextBox txtCaminhoOuLink;
         private Button btnSelecionarArquivo;
-        private Label label5;
         private DateTimePicker dtpDataPublicacaoMaterial;
         private Button btnCadastrarMaterial;
         private Button btnAcessarMaterial;

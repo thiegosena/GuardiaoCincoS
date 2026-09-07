@@ -20,9 +20,18 @@ namespace GuardiaoCincoS
             while (continuarExecutando)
             {
                 DialogResult resultadoLogin;
-                using (var frmLogin = new FrmLogin())
+
+                // A cortina preta só existe durante a tela de Login -- o "using"
+                // garante que ela desaparece sozinha assim que o login fecha,
+                // seja com sucesso ou não.
+                using (var overlay = new FrmOverlayEscuro())
                 {
-                    resultadoLogin = frmLogin.ShowDialog();
+                    overlay.Show();
+
+                    using (var frmLogin = new FrmLogin())
+                    {
+                        resultadoLogin = frmLogin.ShowDialog(overlay);
+                    }
                 }
 
                 if (resultadoLogin != DialogResult.OK)

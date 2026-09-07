@@ -28,13 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmOnboarding));
             dgvOnboardings = new DataGridView();
-            label1 = new Label();
             cboColaboradorOnboarding = new ComboBox();
-            label2 = new Label();
             dtpDataInicioOnboarding = new DateTimePicker();
             btnIniciarOnboarding = new Button();
-            label3 = new Label();
             dgvChecklistOnboarding = new DataGridView();
             btnSalvarProgresso = new Button();
             btnConcluirOnboarding = new Button();
@@ -55,15 +53,6 @@
             dgvOnboardings.TabIndex = 0;
             dgvOnboardings.CellClick += dgvOnboardings_CellClick;
             // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.Location = new Point(14, 171);
-            label1.Name = "label1";
-            label1.Size = new Size(73, 15);
-            label1.TabIndex = 1;
-            label1.Text = "Colaborador";
-            // 
             // cboColaboradorOnboarding
             // 
             cboColaboradorOnboarding.DropDownStyle = ComboBoxStyle.DropDownList;
@@ -72,15 +61,6 @@
             cboColaboradorOnboarding.Name = "cboColaboradorOnboarding";
             cboColaboradorOnboarding.Size = new Size(147, 23);
             cboColaboradorOnboarding.TabIndex = 2;
-            // 
-            // label2
-            // 
-            label2.AutoSize = true;
-            label2.Location = new Point(246, 171);
-            label2.Name = "label2";
-            label2.Size = new Size(79, 15);
-            label2.TabIndex = 3;
-            label2.Text = "Data de início";
             // 
             // dtpDataInicioOnboarding
             // 
@@ -99,16 +79,6 @@
             btnIniciarOnboarding.Text = "Iniciar Onboarding";
             btnIniciarOnboarding.UseVisualStyleBackColor = true;
             btnIniciarOnboarding.Click += btnIniciarOnboarding_Click;
-            // 
-            // label3
-            // 
-            label3.AutoSize = true;
-            label3.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            label3.Location = new Point(282, 204);
-            label3.Name = "label3";
-            label3.Size = new Size(208, 15);
-            label3.TabIndex = 6;
-            label3.Text = "Checklist do onboarding selecionado";
             // 
             // dgvChecklistOnboarding
             // 
@@ -156,18 +126,16 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 561);
+            ClientSize = new Size(934, 811);
             Controls.Add(btnFechar);
             Controls.Add(btnConcluirOnboarding);
             Controls.Add(btnSalvarProgresso);
             Controls.Add(dgvChecklistOnboarding);
-            Controls.Add(label3);
             Controls.Add(btnIniciarOnboarding);
             Controls.Add(dtpDataInicioOnboarding);
-            Controls.Add(label2);
             Controls.Add(cboColaboradorOnboarding);
-            Controls.Add(label1);
             Controls.Add(dgvOnboardings);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "FrmOnboarding";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Onboarding";
@@ -175,18 +143,14 @@
             ((System.ComponentModel.ISupportInitialize)dgvOnboardings).EndInit();
             ((System.ComponentModel.ISupportInitialize)dgvChecklistOnboarding).EndInit();
             ResumeLayout(false);
-            PerformLayout();
         }
 
         #endregion
 
         private DataGridView dgvOnboardings;
-        private Label label1;
         private ComboBox cboColaboradorOnboarding;
-        private Label label2;
         private DateTimePicker dtpDataInicioOnboarding;
         private Button btnIniciarOnboarding;
-        private Label label3;
         private DataGridView dgvChecklistOnboarding;
         private Button btnSalvarProgresso;
         private Button btnConcluirOnboarding;

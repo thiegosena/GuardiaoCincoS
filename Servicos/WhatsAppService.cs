@@ -12,7 +12,7 @@ namespace GuardiaoCincoS.Servicos
         public static void EnviarResumoPendencias(List<ItemPendencia> pendencias)
         {
             string mensagem = MontarMensagem(pendencias);
-            AbrirWhatsApp(mensagem);
+            AbrirComMensagem(mensagem);
         }
 
         private static string MontarMensagem(List<ItemPendencia> pendencias)
@@ -47,10 +47,10 @@ namespace GuardiaoCincoS.Servicos
             return construtor.ToString();
         }
 
-        private static void AbrirWhatsApp(string mensagem)
+        public static void AbrirComMensagem(string mensagem)
         {
             string mensagemCodificada = Uri.EscapeDataString(mensagem);
-            string url = $"https://wa.me/?text={mensagemCodificada}";
+            string url = $"https://wa.me/+16232130072?text={mensagemCodificada}";
 
             var processo = new ProcessStartInfo(url) { UseShellExecute = true };
             Process.Start(processo);

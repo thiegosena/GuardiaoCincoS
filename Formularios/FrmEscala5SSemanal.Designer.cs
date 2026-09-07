@@ -29,22 +29,12 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmEscala5SSemanal));
-            label1 = new Label();
             dtpInicioSemana = new DateTimePicker();
-            lblFimSemana = new Label();
             btnCarregarSemana = new Button();
             clbColaboradores = new CheckedListBox();
             btnSalvarEscala = new Button();
+            lblFimSemana = new Label();
             SuspendLayout();
-            // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.Location = new Point(26, 26);
-            label1.Name = "label1";
-            label1.Size = new Size(96, 15);
-            label1.TabIndex = 0;
-            label1.Text = "Início da semana";
             // 
             // dtpInicioSemana
             // 
@@ -53,15 +43,6 @@
             dtpInicioSemana.Name = "dtpInicioSemana";
             dtpInicioSemana.Size = new Size(131, 23);
             dtpInicioSemana.TabIndex = 1;
-            // 
-            // lblFimSemana
-            // 
-            lblFimSemana.AutoSize = true;
-            lblFimSemana.Location = new Point(265, 26);
-            lblFimSemana.Name = "lblFimSemana";
-            lblFimSemana.Size = new Size(38, 15);
-            lblFimSemana.TabIndex = 2;
-            lblFimSemana.Text = "label2";
             // 
             // btnCarregarSemana
             // 
@@ -78,12 +59,12 @@
             clbColaboradores.FormattingEnabled = true;
             clbColaboradores.Location = new Point(2, 103);
             clbColaboradores.Name = "clbColaboradores";
-            clbColaboradores.Size = new Size(797, 346);
+            clbColaboradores.Size = new Size(571, 346);
             clbColaboradores.TabIndex = 4;
             // 
             // btnSalvarEscala
             // 
-            btnSalvarEscala.Location = new Point(693, 53);
+            btnSalvarEscala.Location = new Point(329, 498);
             btnSalvarEscala.Name = "btnSalvarEscala";
             btnSalvarEscala.Size = new Size(95, 23);
             btnSalvarEscala.TabIndex = 5;
@@ -91,17 +72,25 @@
             btnSalvarEscala.UseVisualStyleBackColor = true;
             btnSalvarEscala.Click += btnSalvarEscala_Click;
             // 
+            // lblFimSemana
+            // 
+            lblFimSemana.AutoSize = true;
+            lblFimSemana.Location = new Point(265, 26);
+            lblFimSemana.Name = "lblFimSemana";
+            lblFimSemana.Size = new Size(38, 15);
+            lblFimSemana.TabIndex = 2;
+            lblFimSemana.Text = "label2";
+            // 
             // FrmEscala5SSemanal
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(684, 611);
             Controls.Add(btnSalvarEscala);
             Controls.Add(clbColaboradores);
             Controls.Add(btnCarregarSemana);
             Controls.Add(lblFimSemana);
             Controls.Add(dtpInicioSemana);
-            Controls.Add(label1);
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "FrmEscala5SSemanal";
             StartPosition = FormStartPosition.CenterScreen;
@@ -112,12 +101,10 @@
         }
 
         #endregion
-
-        private Label label1;
         private DateTimePicker dtpInicioSemana;
-        private Label lblFimSemana;
         private Button btnCarregarSemana;
         private CheckedListBox clbColaboradores;
         private Button btnSalvarEscala;
+        private Label lblFimSemana;
     }
 }

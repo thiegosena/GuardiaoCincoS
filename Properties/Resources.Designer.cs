@@ -59,5 +59,15 @@ namespace GuardiaoCincoS.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Guerreiro {
+            get {
+                object obj = ResourceManager.GetObject("Guerreiro", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
     }
 }

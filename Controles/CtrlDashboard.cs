@@ -27,6 +27,7 @@ namespace GuardiaoCincoS.Controles
             InitializeComponent();
             MontarPainelDireito();
             AplicarEstiloInicial();
+            dgvPendencias.CellContentClick += DgvPendencias_CellContentClick;
         }
 
         private void MontarPainelDireito()
@@ -147,29 +148,42 @@ namespace GuardiaoCincoS.Controles
             lblTituloPendencias.Font = EstiloVisual.FonteSecao;
             lblTituloPendencias.ForeColor = EstiloVisual.AzulMarinho;
 
-            ConfigurarGrid(dgvPendencias);
-            ConfigurarGrid(dgvProximosEventos!);
+            EstiloVisual.ConfigurarGrid(dgvPendencias);
+            ConfigurarColunasPendencias();
+            EstiloVisual.ConfigurarGrid(dgvProximosEventos!);
         }
 
-        private void ConfigurarGrid(DataGridView grid)
+        
+
+        // Define a estrutura de colunas do grid de Pendências UMA ÚNICA VEZ, com
+        // AutoGenerateColumns = false. Isso impede que o WinForms recrie (e reordene)
+        // as colunas sozinho toda vez que o DataSource é reatribuído em CarregarPendencias().
+        private void ConfigurarColunasPendencias()
         {
-            grid.BackgroundColor = Color.White;
-            grid.BorderStyle = BorderStyle.None;
-            grid.ReadOnly = true;
-            grid.AllowUserToAddRows = false;
-            grid.AllowUserToDeleteRows = false;
-            grid.RowHeadersVisible = false;
-            grid.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            grid.MultiSelect = false;
-            grid.EnableHeadersVisualStyles = false;
-            grid.ColumnHeadersDefaultCellStyle.BackColor = EstiloVisual.FundoPagina;
-            grid.ColumnHeadersDefaultCellStyle.ForeColor = EstiloVisual.TextoTitulo;
-            grid.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            grid.DefaultCellStyle.SelectionBackColor = Color.FromArgb(225, 235, 250);
-            grid.DefaultCellStyle.SelectionForeColor = EstiloVisual.TextoTitulo;
-            grid.DefaultCellStyle.Font = EstiloVisual.FonteTexto;
-            grid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            grid.RowTemplate.Height = 28;
+            dgvPendencias.AutoGenerateColumns = false;
+            dgvPendencias.Columns.Clear();
+
+            dgvPendencias.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "Id", Visible = false });
+            dgvPendencias.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "Origem", HeaderText = "Tipo" });
+            dgvPendencias.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "LocalOuSetor", HeaderText = "Local/Setor" });
+            dgvPendencias.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "Descricao", HeaderText = "Descrição" });
+            dgvPendencias.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                DataPropertyName = "Prazo",
+                HeaderText = "Prazo",
+                DefaultCellStyle = new DataGridViewCellStyle { Format = "dd/MM/yyyy" }
+            });
+            dgvPendencias.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "SituacaoTexto", HeaderText = "Situação" });
+
+            var colunaConcluir = new DataGridViewButtonColumn
+            {
+                Name = "Concluir",
+                HeaderText = "",
+                Text = "Concluir",
+                UseColumnTextForButtonValue = true,
+                Width = 90
+            };
+            dgvPendencias.Columns.Add(colunaConcluir);
         }
 
         public void CarregarDados()
@@ -273,22 +287,42 @@ namespace GuardiaoCincoS.Controles
             dgvPendencias.DataSource = null;
             dgvPendencias.DataSource = pendencias;
 
-            if (dgvPendencias.Columns["Origem"] != null) dgvPendencias.Columns["Origem"]!.HeaderText = "Tipo";
-            if (dgvPendencias.Columns["LocalOuSetor"] != null) dgvPendencias.Columns["LocalOuSetor"]!.HeaderText = "Local/Setor";
-            if (dgvPendencias.Columns["Descricao"] != null) dgvPendencias.Columns["Descricao"]!.HeaderText = "Descrição";
-            if (dgvPendencias.Columns["SituacaoTexto"] != null) dgvPendencias.Columns["SituacaoTexto"]!.HeaderText = "Situação";
-            if (dgvPendencias.Columns["DiasRestantes"] != null) dgvPendencias.Columns["DiasRestantes"]!.Visible = false;
-            if (dgvPendencias.Columns["Prazo"] != null)
-            {
-                dgvPendencias.Columns["Prazo"]!.HeaderText = "Prazo";
-                dgvPendencias.Columns["Prazo"]!.DefaultCellStyle.Format = "dd/MM/yyyy";
-            }
-
             foreach (DataGridViewRow linha in dgvPendencias.Rows)
             {
                 var item = (ItemPendencia)linha.DataBoundItem!;
                 linha.DefaultCellStyle.ForeColor = EstiloVisual.CorPorUrgencia(item.DiasRestantes);
             }
+        }
+
+        private void DgvPendencias_CellContentClick(object? sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0) return;
+            if (dgvPendencias.Columns[e.ColumnIndex].Name != "Concluir") return;
+
+            var linha = dgvPendencias.Rows[e.RowIndex];
+            var item = (ItemPendencia)linha.DataBoundItem!;
+
+            var confirmacao = MessageBox.Show(
+                $"Marcar como concluída a pendência \"{item.Descricao}\" ({item.LocalOuSetor})?",
+                "Confirmar", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+            if (confirmacao != DialogResult.Yes) return;
+
+            switch (item.Origem)
+            {
+                case "Demarcação":
+                    DemarcacaoDAO.Concluir(item.Id, string.Empty);
+                    break;
+                case "Placa Provisória":
+                    PlacaProvisoriaDAO.Concluir(item.Id);
+                    break;
+                case "Item de Correção":
+                    ItemCorrecaoDAO.Concluir(item.Id);
+                    break;
+            }
+
+            CarregarCards();
+            CarregarPendencias();
         }
 
         private void CarregarProximosEventos()

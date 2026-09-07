@@ -1,8 +1,10 @@
+using System;
+using System.Drawing;
+using System.Windows.Forms;
 using GuardiaoCincoS.Dados;
-using GuardiaoCincoS.Servicos;
 using GuardiaoCincoS.Formularios;
+using GuardiaoCincoS.Servicos;
 using Microsoft.Data.SqlClient;
-
 
 namespace GuardiaoCincoS
 {
@@ -11,6 +13,32 @@ namespace GuardiaoCincoS
         public FrmLogin()
         {
             InitializeComponent();
+
+            // Centraliza em cima do overlay (que cobre a tela inteira) e
+            // garante que o login sempre fique por cima de qualquer outra
+            // janela do próprio Guardião 5S.
+            StartPosition = FormStartPosition.CenterParent;
+        }
+
+        private void FrmLogin_Load(object sender, EventArgs e)
+        {
+            lblVersao.Text = VersaoApp.ObterVersaoTexto();
+            AtualizacaoService.VerificarAtualizacoes();
+
+            EstiloVisual.EstilizarBotao(btnEntrar, "Entrar", EstiloVisual.Verde, Color.White);
+            btnEntrar.Size = new Size(140, 42);
+
+            string? usuarioLembrado = PreferenciasLogin.Carregar();
+            if (!string.IsNullOrEmpty(usuarioLembrado))
+            {
+                txtUsuario.Text = usuarioLembrado;
+                chkLembrarUsuario.Checked = true;
+                txtSenha.Focus();
+            }
+            else
+            {
+                txtUsuario.Focus();
+            }
         }
 
         private void btnEntrar_Click(object sender, EventArgs e)
@@ -51,6 +79,8 @@ namespace GuardiaoCincoS
                                     Sessao.IdPerfil = leitor.LerInteiro("IdPerfil");
                                     Sessao.NomePerfil = leitor.LerTexto("NomePerfil");
 
+                                    PreferenciasLogin.Salvar(usuario, chkLembrarUsuario.Checked);
+
                                     DialogResult = DialogResult.OK;
                                     Close();
                                 }
@@ -72,8 +102,6 @@ namespace GuardiaoCincoS
                 MessageBox.Show("Erro ao conectar no banco: " + ex.Message, "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
-
 
         private bool CompararBytes(byte[] a, byte[] b)
         {
@@ -106,8 +134,15 @@ namespace GuardiaoCincoS
                 txtSenha.Focus();
             }
         }
+
+        private void llNovoCadastro_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            WhatsAppService.AbrirComMensagem("Olá! Gostaria de solicitar um novo cadastro no Sistema Guardião 5S.");
+        }
+
+        private void llEsqueceuSenha_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            WhatsAppService.AbrirComMensagem("Olá! Esqueci minha senha do Sistema Guardião 5S e preciso de ajuda para redefini-la.");
+        }
     }
-
 }
-
-

@@ -30,15 +30,16 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmColaboradores));
             dgvColaboradores = new DataGridView();
-            label1 = new Label();
             txtNome = new TextBox();
             txtSetor = new TextBox();
-            label2 = new Label();
-            label3 = new Label();
             cboTurno = new ComboBox();
             btnNovo = new Button();
             btnSalvar = new Button();
             btnInativar = new Button();
+            chkMostrarInativos = new CheckBox();
+            btnEditar = new Button();
+            btnCancelarEdicao = new Button();
+            btnReativar = new Button();
             ((System.ComponentModel.ISupportInitialize)dgvColaboradores).BeginInit();
             SuspendLayout();
             // 
@@ -50,66 +51,39 @@
             dgvColaboradores.MultiSelect = false;
             dgvColaboradores.Name = "dgvColaboradores";
             dgvColaboradores.ReadOnly = true;
-            dgvColaboradores.Size = new Size(776, 225);
+            dgvColaboradores.Size = new Size(982, 225);
             dgvColaboradores.TabIndex = 0;
             dgvColaboradores.CellClick += dgvColaboradores_CellClick;
             // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.Location = new Point(49, 249);
-            label1.Name = "label1";
-            label1.Size = new Size(40, 15);
-            label1.TabIndex = 1;
-            label1.Text = "Nome";
-            // 
             // txtNome
             // 
-            txtNome.Location = new Point(95, 246);
+            txtNome.Location = new Point(145, 287);
             txtNome.Name = "txtNome";
-            txtNome.Size = new Size(100, 23);
+            txtNome.Size = new Size(216, 23);
             txtNome.TabIndex = 2;
             // 
             // txtSetor
             // 
-            txtSetor.Location = new Point(304, 246);
+            txtSetor.Location = new Point(464, 287);
             txtSetor.Name = "txtSetor";
-            txtSetor.Size = new Size(100, 23);
+            txtSetor.Size = new Size(147, 23);
             txtSetor.TabIndex = 4;
-            // 
-            // label2
-            // 
-            label2.AutoSize = true;
-            label2.Location = new Point(258, 249);
-            label2.Name = "label2";
-            label2.Size = new Size(34, 15);
-            label2.TabIndex = 3;
-            label2.Text = "Setor";
-            // 
-            // label3
-            // 
-            label3.AutoSize = true;
-            label3.Location = new Point(436, 249);
-            label3.Name = "label3";
-            label3.Size = new Size(39, 15);
-            label3.TabIndex = 5;
-            label3.Text = "Turno";
             // 
             // cboTurno
             // 
             cboTurno.DropDownStyle = ComboBoxStyle.DropDownList;
             cboTurno.FormattingEnabled = true;
             cboTurno.Items.AddRange(new object[] { "1º Turno", "2º Turno", "3º Turno", "Geral" });
-            cboTurno.Location = new Point(481, 246);
+            cboTurno.Location = new Point(688, 287);
             cboTurno.Name = "cboTurno";
             cboTurno.Size = new Size(121, 23);
             cboTurno.TabIndex = 6;
             // 
             // btnNovo
             // 
-            btnNovo.Location = new Point(74, 400);
+            btnNovo.Location = new Point(-15, 473);
             btnNovo.Name = "btnNovo";
-            btnNovo.Size = new Size(75, 23);
+            btnNovo.Size = new Size(105, 31);
             btnNovo.TabIndex = 7;
             btnNovo.Text = "Novo";
             btnNovo.UseVisualStyleBackColor = true;
@@ -117,9 +91,9 @@
             // 
             // btnSalvar
             // 
-            btnSalvar.Location = new Point(236, 400);
+            btnSalvar.Location = new Point(147, 473);
             btnSalvar.Name = "btnSalvar";
-            btnSalvar.Size = new Size(75, 23);
+            btnSalvar.Size = new Size(105, 31);
             btnSalvar.TabIndex = 8;
             btnSalvar.Text = "Salvar";
             btnSalvar.UseVisualStyleBackColor = true;
@@ -127,28 +101,70 @@
             // 
             // btnInativar
             // 
-            btnInativar.Location = new Point(400, 400);
+            btnInativar.Location = new Point(794, 473);
             btnInativar.Name = "btnInativar";
-            btnInativar.Size = new Size(75, 23);
+            btnInativar.Size = new Size(105, 31);
             btnInativar.TabIndex = 9;
             btnInativar.Text = "Inativar";
             btnInativar.UseVisualStyleBackColor = true;
             btnInativar.Click += btnInativar_Click;
             // 
+            // chkMostrarInativos
+            // 
+            chkMostrarInativos.AutoSize = true;
+            chkMostrarInativos.Location = new Point(13, 232);
+            chkMostrarInativos.Name = "chkMostrarInativos";
+            chkMostrarInativos.Size = new Size(111, 19);
+            chkMostrarInativos.TabIndex = 10;
+            chkMostrarInativos.Text = "Mostrar inativos";
+            chkMostrarInativos.UseVisualStyleBackColor = true;
+            chkMostrarInativos.CheckedChanged += chkMostrarInativos_CheckedChanged;
+            // 
+            // btnEditar
+            // 
+            btnEditar.Location = new Point(300, 473);
+            btnEditar.Name = "btnEditar";
+            btnEditar.Size = new Size(105, 31);
+            btnEditar.TabIndex = 12;
+            btnEditar.Text = "Editar";
+            btnEditar.UseVisualStyleBackColor = true;
+            btnEditar.Click += btnEditar_Click;
+            // 
+            // btnCancelarEdicao
+            // 
+            btnCancelarEdicao.Location = new Point(458, 473);
+            btnCancelarEdicao.Name = "btnCancelarEdicao";
+            btnCancelarEdicao.Size = new Size(105, 31);
+            btnCancelarEdicao.TabIndex = 11;
+            btnCancelarEdicao.Text = "Cancelar Edição";
+            btnCancelarEdicao.UseVisualStyleBackColor = true;
+            btnCancelarEdicao.Click += btnCancelarEdicao_Click;
+            // 
+            // btnReativar
+            // 
+            btnReativar.Location = new Point(629, 473);
+            btnReativar.Name = "btnReativar";
+            btnReativar.Size = new Size(105, 31);
+            btnReativar.TabIndex = 13;
+            btnReativar.Text = "Reativar";
+            btnReativar.UseVisualStyleBackColor = true;
+            btnReativar.Click += btnReativar_Click;
+            // 
             // FrmColaboradores
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(884, 661);
+            Controls.Add(btnReativar);
+            Controls.Add(btnEditar);
+            Controls.Add(btnCancelarEdicao);
+            Controls.Add(chkMostrarInativos);
             Controls.Add(btnInativar);
             Controls.Add(btnSalvar);
             Controls.Add(btnNovo);
             Controls.Add(cboTurno);
-            Controls.Add(label3);
             Controls.Add(txtSetor);
-            Controls.Add(label2);
             Controls.Add(txtNome);
-            Controls.Add(label1);
             Controls.Add(dgvColaboradores);
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "FrmColaboradores";
@@ -163,14 +179,15 @@
         #endregion
 
         private DataGridView dgvColaboradores;
-        private Label label1;
         private TextBox txtNome;
         private TextBox txtSetor;
-        private Label label2;
-        private Label label3;
         private ComboBox cboTurno;
         private Button btnNovo;
         private Button btnSalvar;
         private Button btnInativar;
+        private CheckBox chkMostrarInativos;
+        private Button btnEditar;
+        private Button btnCancelarEdicao;
+        private Button btnReativar;
     }
 }

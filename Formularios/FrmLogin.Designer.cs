@@ -37,11 +37,12 @@
             txtSenha = new TextBox();
             btnEntrar = new Button();
             pictureBox1 = new PictureBox();
-            linklbNovoUsuario = new LinkLabel();
-            linklbEsqueceuSenha = new LinkLabel();
+            llNovoCadastro = new LinkLabel();
+            llEsqueceuSenha = new LinkLabel();
             chkLembrarUsuario = new CheckBox();
             label5 = new Label();
             btnFechar = new Button();
+            lblVersao = new Label();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
             // 
@@ -110,6 +111,7 @@
             // 
             // pictureBox1
             // 
+            pictureBox1.BackColor = Color.Transparent;
             pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
             pictureBox1.Location = new Point(124, 47);
             pictureBox1.Name = "pictureBox1";
@@ -118,25 +120,27 @@
             pictureBox1.TabIndex = 5;
             pictureBox1.TabStop = false;
             // 
-            // linklbNovoUsuario
+            // llNovoCadastro
             // 
-            linklbNovoUsuario.AutoSize = true;
-            linklbNovoUsuario.Location = new Point(12, 369);
-            linklbNovoUsuario.Name = "linklbNovoUsuario";
-            linklbNovoUsuario.Size = new Size(86, 15);
-            linklbNovoUsuario.TabIndex = 6;
-            linklbNovoUsuario.TabStop = true;
-            linklbNovoUsuario.Text = "Novo Cadastro";
+            llNovoCadastro.AutoSize = true;
+            llNovoCadastro.Location = new Point(12, 369);
+            llNovoCadastro.Name = "llNovoCadastro";
+            llNovoCadastro.Size = new Size(86, 15);
+            llNovoCadastro.TabIndex = 6;
+            llNovoCadastro.TabStop = true;
+            llNovoCadastro.Text = "Novo Cadastro";
+            llNovoCadastro.LinkClicked += llNovoCadastro_LinkClicked;
             // 
-            // linklbEsqueceuSenha
+            // llEsqueceuSenha
             // 
-            linklbEsqueceuSenha.AutoSize = true;
-            linklbEsqueceuSenha.Location = new Point(221, 369);
-            linklbEsqueceuSenha.Name = "linklbEsqueceuSenha";
-            linklbEsqueceuSenha.Size = new Size(106, 15);
-            linklbEsqueceuSenha.TabIndex = 7;
-            linklbEsqueceuSenha.TabStop = true;
-            linklbEsqueceuSenha.Text = "Esqueceu a Senha?";
+            llEsqueceuSenha.AutoSize = true;
+            llEsqueceuSenha.Location = new Point(221, 369);
+            llEsqueceuSenha.Name = "llEsqueceuSenha";
+            llEsqueceuSenha.Size = new Size(106, 15);
+            llEsqueceuSenha.TabIndex = 7;
+            llEsqueceuSenha.TabStop = true;
+            llEsqueceuSenha.Text = "Esqueceu a Senha?";
+            llEsqueceuSenha.LinkClicked += llEsqueceuSenha_LinkClicked;
             // 
             // chkLembrarUsuario
             // 
@@ -174,17 +178,30 @@
             btnFechar.UseVisualStyleBackColor = false;
             btnFechar.Click += btnFechar_Click;
             // 
+            // lblVersao
+            // 
+            lblVersao.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            lblVersao.AutoSize = true;
+            lblVersao.Font = new Font("Segoe UI", 8F);
+            lblVersao.ForeColor = Color.FromArgb(150, 150, 150);
+            lblVersao.Location = new Point(143, 370);
+            lblVersao.Name = "lblVersao";
+            lblVersao.Size = new Size(38, 13);
+            lblVersao.TabIndex = 15;
+            lblVersao.Text = "label3";
+            // 
             // FrmLogin
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = SystemColors.ButtonHighlight;
+            BackColor = Color.White;
             ClientSize = new Size(339, 392);
+            Controls.Add(lblVersao);
             Controls.Add(btnFechar);
             Controls.Add(label5);
             Controls.Add(chkLembrarUsuario);
-            Controls.Add(linklbEsqueceuSenha);
-            Controls.Add(linklbNovoUsuario);
+            Controls.Add(llEsqueceuSenha);
+            Controls.Add(llNovoCadastro);
             Controls.Add(pictureBox1);
             Controls.Add(btnEntrar);
             Controls.Add(txtSenha);
@@ -199,6 +216,7 @@
             ShowIcon = false;
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Login";
+            Load += FrmLogin_Load;
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ResumeLayout(false);
             PerformLayout();
@@ -212,11 +230,12 @@
         private TextBox txtSenha;
         private Button btnEntrar;
         private PictureBox pictureBox1;
-        private LinkLabel linklbNovoUsuario;
-        private LinkLabel linklbEsqueceuSenha;
+        private LinkLabel llNovoCadastro;
+        private LinkLabel llEsqueceuSenha;
         private CheckBox chkLembrarUsuario;
         private ImageList imageList1;
         private Label label5;
         private Button btnFechar;
+        private Label lblVersao;
     }
 }

@@ -21,7 +21,7 @@ namespace GuardiaoCincoS.Dados
         private static List<ItemPendencia> ListarDemarcacoesPendentes()
         {
             var lista = new List<ItemPendencia>();
-            string sql = "SELECT Local, Descricao, DataPrevista FROM Demarcacoes WHERE Status = 'Pendente'";
+            string sql = "SELECT Id, Local, Descricao, DataPrevista FROM Demarcacoes WHERE Status = 'Pendente'";
 
             using (var conexao = ConexaoBanco.ObterConexao())
             {
@@ -33,6 +33,7 @@ namespace GuardiaoCincoS.Dados
                     {
                         lista.Add(new ItemPendencia
                         {
+                            Id = leitor.LerInteiro("Id"),
                             Origem = "Demarcação",
                             LocalOuSetor = leitor.LerTexto("Local"),
                             Descricao = leitor.LerTexto("Descricao"),
@@ -47,7 +48,7 @@ namespace GuardiaoCincoS.Dados
         private static List<ItemPendencia> ListarPlacasPendentes()
         {
             var lista = new List<ItemPendencia>();
-            string sql = "SELECT LocalPlaca, DataVencimento FROM PlacasProvisoriasAuditoria WHERE Status = 'Pendente'";
+            string sql = "SELECT Id, LocalPlaca, DataVencimento FROM PlacasProvisoriasAuditoria WHERE Status = 'Pendente'";
 
             using (var conexao = ConexaoBanco.ObterConexao())
             {
@@ -59,6 +60,7 @@ namespace GuardiaoCincoS.Dados
                     {
                         lista.Add(new ItemPendencia
                         {
+                            Id = leitor.LerInteiro("Id"),
                             Origem = "Placa Provisória",
                             LocalOuSetor = leitor.LerTexto("LocalPlaca"),
                             Descricao = "Substituir placa provisória",
@@ -73,7 +75,7 @@ namespace GuardiaoCincoS.Dados
         private static List<ItemPendencia> ListarItensCorrecaoPendentes()
         {
             var lista = new List<ItemPendencia>();
-            string sql = @"SELECT ic.Descricao, ic.DataLimite, a.Setor
+            string sql = @"SELECT ic.Id, ic.Descricao, ic.DataLimite, a.Setor
                            FROM ItensCorrecaoAuditoria ic
                            INNER JOIN Auditorias a ON a.Id = ic.IdAuditoria
                            WHERE ic.Status = 'Pendente'";
@@ -88,6 +90,7 @@ namespace GuardiaoCincoS.Dados
                     {
                         lista.Add(new ItemPendencia
                         {
+                            Id = leitor.LerInteiro("Id"),
                             Origem = "Item de Correção",
                             LocalOuSetor = leitor.LerTexto("Setor"),
                             Descricao = leitor.LerTexto("Descricao"),

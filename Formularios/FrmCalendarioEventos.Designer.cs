@@ -28,23 +28,17 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmCalendarioEventos));
             mcalEventos = new MonthCalendar();
             chkMostrarCancelados = new CheckBox();
             dgvEventosDoDia = new DataGridView();
-            label1 = new Label();
             txtTituloEvento = new TextBox();
-            label2 = new Label();
             cboTipoEvento = new ComboBox();
-            label3 = new Label();
             dtpDataInicioEvento = new DateTimePicker();
             dtpDataFimEvento = new DateTimePicker();
-            label4 = new Label();
             txtLocalEvento = new TextBox();
-            label5 = new Label();
             txtDescricaoEvento = new TextBox();
-            label6 = new Label();
             cboResponsavelEvento = new ComboBox();
-            label7 = new Label();
             btnNovoEvento = new Button();
             btnEditarEvento = new Button();
             btnCancelarEvento = new Button();
@@ -84,15 +78,6 @@
             dgvEventosDoDia.TabIndex = 2;
             dgvEventosDoDia.CellClick += dgvEventosDoDia_CellClick;
             // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.Location = new Point(588, 15);
-            label1.Name = "label1";
-            label1.Size = new Size(38, 15);
-            label1.TabIndex = 3;
-            label1.Text = "Título";
-            // 
             // txtTituloEvento
             // 
             txtTituloEvento.Location = new Point(632, 12);
@@ -100,15 +85,6 @@
             txtTituloEvento.Name = "txtTituloEvento";
             txtTituloEvento.Size = new Size(280, 23);
             txtTituloEvento.TabIndex = 4;
-            // 
-            // label2
-            // 
-            label2.AutoSize = true;
-            label2.Location = new Point(588, 54);
-            label2.Name = "label2";
-            label2.Size = new Size(31, 15);
-            label2.TabIndex = 5;
-            label2.Text = "Tipo";
             // 
             // cboTipoEvento
             // 
@@ -118,15 +94,6 @@
             cboTipoEvento.Name = "cboTipoEvento";
             cboTipoEvento.Size = new Size(220, 23);
             cboTipoEvento.TabIndex = 6;
-            // 
-            // label3
-            // 
-            label3.AutoSize = true;
-            label3.Location = new Point(588, 100);
-            label3.Name = "label3";
-            label3.Size = new Size(63, 15);
-            label3.TabIndex = 7;
-            label3.Text = "Data início";
             // 
             // dtpDataInicioEvento
             // 
@@ -144,15 +111,6 @@
             dtpDataFimEvento.Size = new Size(195, 23);
             dtpDataFimEvento.TabIndex = 10;
             // 
-            // label4
-            // 
-            label4.AutoSize = true;
-            label4.Location = new Point(588, 148);
-            label4.Name = "label4";
-            label4.Size = new Size(52, 15);
-            label4.TabIndex = 9;
-            label4.Text = "Data fim";
-            // 
             // txtLocalEvento
             // 
             txtLocalEvento.Location = new Point(632, 194);
@@ -160,15 +118,6 @@
             txtLocalEvento.Name = "txtLocalEvento";
             txtLocalEvento.Size = new Size(220, 23);
             txtLocalEvento.TabIndex = 12;
-            // 
-            // label5
-            // 
-            label5.AutoSize = true;
-            label5.Location = new Point(588, 197);
-            label5.Name = "label5";
-            label5.Size = new Size(35, 15);
-            label5.TabIndex = 11;
-            label5.Text = "Local";
             // 
             // txtDescricaoEvento
             // 
@@ -179,15 +128,6 @@
             txtDescricaoEvento.Size = new Size(324, 105);
             txtDescricaoEvento.TabIndex = 14;
             // 
-            // label6
-            // 
-            label6.AutoSize = true;
-            label6.Location = new Point(588, 245);
-            label6.Name = "label6";
-            label6.Size = new Size(58, 15);
-            label6.TabIndex = 13;
-            label6.Text = "Descrição";
-            // 
             // cboResponsavelEvento
             // 
             cboResponsavelEvento.FormattingEnabled = true;
@@ -196,15 +136,6 @@
             cboResponsavelEvento.Name = "cboResponsavelEvento";
             cboResponsavelEvento.Size = new Size(189, 23);
             cboResponsavelEvento.TabIndex = 16;
-            // 
-            // label7
-            // 
-            label7.AutoSize = true;
-            label7.Location = new Point(588, 377);
-            label7.Name = "label7";
-            label7.Size = new Size(129, 15);
-            label7.TabIndex = 15;
-            label7.Text = "Responsável (opcional)";
             // 
             // btnNovoEvento
             // 
@@ -271,7 +202,7 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             AutoScroll = true;
-            ClientSize = new Size(936, 520);
+            ClientSize = new Size(1084, 741);
             Controls.Add(btnReativarEvento);
             Controls.Add(btnCancelarEdicaoEvento);
             Controls.Add(btnSalvarEvento);
@@ -279,22 +210,16 @@
             Controls.Add(btnEditarEvento);
             Controls.Add(btnNovoEvento);
             Controls.Add(cboResponsavelEvento);
-            Controls.Add(label7);
             Controls.Add(txtDescricaoEvento);
-            Controls.Add(label6);
             Controls.Add(txtLocalEvento);
-            Controls.Add(label5);
             Controls.Add(dtpDataFimEvento);
-            Controls.Add(label4);
             Controls.Add(dtpDataInicioEvento);
-            Controls.Add(label3);
             Controls.Add(cboTipoEvento);
-            Controls.Add(label2);
             Controls.Add(txtTituloEvento);
-            Controls.Add(label1);
             Controls.Add(dgvEventosDoDia);
             Controls.Add(chkMostrarCancelados);
             Controls.Add(mcalEventos);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "FrmCalendarioEventos";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Eventos";
@@ -309,20 +234,13 @@
         private MonthCalendar mcalEventos;
         private CheckBox chkMostrarCancelados;
         private DataGridView dgvEventosDoDia;
-        private Label label1;
         private TextBox txtTituloEvento;
-        private Label label2;
         private ComboBox cboTipoEvento;
-        private Label label3;
         private DateTimePicker dtpDataInicioEvento;
         private DateTimePicker dtpDataFimEvento;
-        private Label label4;
         private TextBox txtLocalEvento;
-        private Label label5;
         private TextBox txtDescricaoEvento;
-        private Label label6;
         private ComboBox cboResponsavelEvento;
-        private Label label7;
         private Button btnNovoEvento;
         private Button btnEditarEvento;
         private Button btnCancelarEvento;

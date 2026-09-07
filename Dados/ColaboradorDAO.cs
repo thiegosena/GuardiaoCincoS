@@ -82,5 +82,19 @@ namespace GuardiaoCincoS.Dados
                 }
             }
         }
+
+        public static void Reativar(int id)
+        {
+            string sql = "UPDATE Colaboradores SET Ativo = 1 WHERE Id = @id";
+            using (var conexao = ConexaoBanco.ObterConexao())
+            {
+                conexao.Open();
+                using (var comando = new SqlCommand(sql, conexao))
+                {
+                    comando.Parameters.AddWithValue("@id", id);
+                    comando.ExecuteNonQuery();
+                }
+            }
+        }
     }
 }

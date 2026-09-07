@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Windows.Forms;
+using GuardiaoCincoS.Controles;
 using GuardiaoCincoS.Dados;
 using GuardiaoCincoS.Modelos;
 using GuardiaoCincoS.Servicos;
@@ -30,10 +32,11 @@ namespace GuardiaoCincoS.Formularios
 
         private void FrmOnboarding_Load(object sender, EventArgs e)
         {
+            MontarLayout();
+
             dtpDataInicioOnboarding.Value = DateTime.Today;
             CarregarColaboradores();
             CarregarGridOnboardings();
-            dgvChecklistOnboarding.Columns.Clear();
 
             if (Sessao.NomePerfil == "Colaborador")
             {
@@ -44,6 +47,99 @@ namespace GuardiaoCincoS.Formularios
                 btnSalvarProgresso.Enabled = false;
                 btnConcluirOnboarding.Enabled = false;
             }
+        }
+
+        private void MontarLayout()
+        {
+            ClientSize = new Size(950, 850);
+            StartPosition = FormStartPosition.CenterScreen;
+            BackColor = EstiloVisual.FundoPagina;
+
+            var pnlCabecalho = EstiloVisual.CriarCabecalho("Onboarding de Colaboradores");
+
+            var pnlConteudo = new Panel { Dock = DockStyle.Fill, BackColor = EstiloVisual.FundoPagina, AutoScroll = true, Padding = new Padding(20) };
+
+            // ===== Card 1: lista de onboardings =====
+            var cartaoLista = new CartaoSecao
+            {
+                Titulo = "Onboardings Registrados",
+                CorDestaque = EstiloVisual.AzulKyly,
+                Dock = DockStyle.Top,
+                Height = 240,
+                Margin = new Padding(0, 0, 0, 20)
+            };
+            dgvOnboardings.Dock = DockStyle.Fill;
+            dgvOnboardings.Parent = cartaoLista.PainelConteudo;
+            EstiloVisual.ConfigurarGrid(dgvOnboardings);
+
+            // ===== Card 2: iniciar novo =====
+            var cartaoIniciar = new CartaoSecao
+            {
+                Titulo = "Iniciar Novo Onboarding",
+                CorDestaque = EstiloVisual.AmareloKyly,
+                Dock = DockStyle.Top,
+                Height = 180,
+                Margin = new Padding(0, 0, 0, 20)
+            };
+
+            var gradeIniciar = new TableLayoutPanel { Dock = DockStyle.Fill, ColumnCount = 2, RowCount = 2 };
+            gradeIniciar.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            gradeIniciar.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            gradeIniciar.RowStyles.Add(new RowStyle(SizeType.AutoSize));
+            gradeIniciar.RowStyles.Add(new RowStyle(SizeType.AutoSize));
+
+            gradeIniciar.Controls.Add(EstiloVisual.CriarCampo("Colaborador", cboColaboradorOnboarding), 0, 0);
+            gradeIniciar.Controls.Add(EstiloVisual.CriarCampo("Data de início", dtpDataInicioOnboarding), 1, 0);
+
+            var pnlBotaoIniciar = new FlowLayoutPanel
+            {
+                FlowDirection = FlowDirection.LeftToRight,
+                AutoSize = true,
+                Dock = DockStyle.Top,
+                Height = 50,
+                Margin = new Padding(6, 8, 6, 0)
+            };
+            EstiloVisual.EstilizarBotao(btnIniciarOnboarding, "Iniciar", EstiloVisual.Verde, Color.White);
+            pnlBotaoIniciar.Controls.Add(btnIniciarOnboarding);
+            gradeIniciar.Controls.Add(pnlBotaoIniciar, 0, 1);
+            gradeIniciar.SetColumnSpan(pnlBotaoIniciar, 2);
+
+            cartaoIniciar.PainelConteudo.Controls.Add(gradeIniciar);
+
+            // ===== Card 3: checklist =====
+            var cartaoChecklist = new CartaoSecao
+            {
+                Titulo = "Checklist do Onboarding Selecionado",
+                CorDestaque = EstiloVisual.Verde,
+                Dock = DockStyle.Fill
+            };
+            dgvChecklistOnboarding.Dock = DockStyle.Fill;
+            dgvChecklistOnboarding.Parent = cartaoChecklist.PainelConteudo;
+            EstiloVisual.ConfigurarGrid(dgvChecklistOnboarding, somenteLeitura: false);
+
+            // ===== Ações finais =====
+            var pnlAcoes = new Panel { Dock = DockStyle.Bottom, Height = 60, Padding = new Padding(0, 15, 0, 0) };
+            var flpAcoes = new FlowLayoutPanel { Dock = DockStyle.Fill, FlowDirection = FlowDirection.LeftToRight };
+
+            EstiloVisual.EstilizarBotao(btnSalvarProgresso, "Salvar Progresso", EstiloVisual.AzulKyly, Color.White);
+            EstiloVisual.EstilizarBotao(btnConcluirOnboarding, "Concluir", EstiloVisual.Verde, Color.White);
+            EstiloVisual.EstilizarBotao(btnFechar, "Fechar", Color.FromArgb(210, 214, 220), EstiloVisual.TextoTitulo);
+
+            flpAcoes.Controls.Add(btnSalvarProgresso);
+            flpAcoes.Controls.Add(btnConcluirOnboarding);
+            flpAcoes.Controls.Add(btnFechar);
+            pnlAcoes.Controls.Add(flpAcoes);
+
+            // Ordem de adição = inverso da ordem visual desejada (Lista -> Iniciar ->
+            // Checklist, de cima pra baixo). pnlAcoes (Bottom) e cartaoChecklist (Fill)
+            // não competem por ordem entre si -- só os dois Dock=Top competem.
+            pnlConteudo.Controls.Add(pnlAcoes);
+            pnlConteudo.Controls.Add(cartaoChecklist);
+            pnlConteudo.Controls.Add(cartaoIniciar);
+            pnlConteudo.Controls.Add(cartaoLista);
+
+            Controls.Add(pnlConteudo);
+            Controls.Add(pnlCabecalho);
         }
 
         private void CarregarColaboradores()
@@ -58,8 +154,31 @@ namespace GuardiaoCincoS.Formularios
             dgvOnboardings.DataSource = null;
             dgvOnboardings.DataSource = OnboardingDAO.Listar();
 
-            if (dgvOnboardings.Columns["Observacoes"] != null)
-                dgvOnboardings.Columns["Observacoes"]!.Visible = false;
+            if (dgvOnboardings.Columns["Id"] != null) dgvOnboardings.Columns["Id"]!.Visible = false;
+            if (dgvOnboardings.Columns["IdColaborador"] != null) dgvOnboardings.Columns["IdColaborador"]!.Visible = false;
+            if (dgvOnboardings.Columns["Observacoes"] != null) dgvOnboardings.Columns["Observacoes"]!.Visible = false;
+
+            if (dgvOnboardings.Columns["NomeColaborador"] != null) dgvOnboardings.Columns["NomeColaborador"]!.HeaderText = "Colaborador";
+            if (dgvOnboardings.Columns["Status"] != null) dgvOnboardings.Columns["Status"]!.HeaderText = "Status";
+            if (dgvOnboardings.Columns["DataInicio"] != null)
+            {
+                dgvOnboardings.Columns["DataInicio"]!.HeaderText = "Data de Início";
+                dgvOnboardings.Columns["DataInicio"]!.DefaultCellStyle.Format = "dd/MM/yyyy";
+            }
+            if (dgvOnboardings.Columns["DataConclusao"] != null)
+            {
+                dgvOnboardings.Columns["DataConclusao"]!.HeaderText = "Concluído em";
+                dgvOnboardings.Columns["DataConclusao"]!.DefaultCellStyle.Format = "dd/MM/yyyy HH:mm";
+            }
+
+            foreach (DataGridViewRow linha in dgvOnboardings.Rows)
+            {
+                var onboarding = (Onboarding)linha.DataBoundItem!;
+                if (onboarding.Status == "Concluido")
+                {
+                    linha.DefaultCellStyle.ForeColor = EstiloVisual.TextoSecundario;
+                }
+            }
 
             _idOnboardingSelecionado = 0;
             dgvChecklistOnboarding.Columns.Clear();
@@ -80,8 +199,10 @@ namespace GuardiaoCincoS.Formularios
 
             dgvChecklistOnboarding.Columns["Id"]!.Visible = false;
             dgvChecklistOnboarding.Columns["Descricao"]!.ReadOnly = true;
-            dgvChecklistOnboarding.Columns["Descricao"]!.Width = 320;
+            dgvChecklistOnboarding.Columns["Descricao"]!.FillWeight = 55f;
+            dgvChecklistOnboarding.Columns["Concluido"]!.FillWeight = 15f;
             dgvChecklistOnboarding.Columns["DataConclusaoItem"]!.ReadOnly = true;
+            dgvChecklistOnboarding.Columns["DataConclusaoItem"]!.FillWeight = 30f;
         }
 
         private void CarregarChecklistDoOnboarding(int idOnboarding)
@@ -135,7 +256,6 @@ namespace GuardiaoCincoS.Formularios
                 return;
             }
 
-            // Força o grid a "confirmar" a última marcação de checkbox antes de ler os valores
             dgvChecklistOnboarding.EndEdit();
 
             foreach (DataGridViewRow linha in dgvChecklistOnboarding.Rows)
@@ -174,7 +294,6 @@ namespace GuardiaoCincoS.Formularios
 
         private void btnFechar_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Fechando o formulário de Onboarding.", "Fechar", MessageBoxButtons.OK, MessageBoxIcon.Information);
             this.Close();
         }
     }

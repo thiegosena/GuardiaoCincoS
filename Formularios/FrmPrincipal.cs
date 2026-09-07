@@ -66,7 +66,7 @@ namespace GuardiaoCincoS.Formularios
                 Location = new Point(16, 18),
                 SizeMode = PictureBoxSizeMode.Zoom,
                 BackColor = Color.Transparent,
-                Image = Image.FromFile(@"D:\Pictures\Arquetipos\Guerreiro.jpg")
+                Image = GuardiaoCincoS.Properties.Resources.Guerreiro
             };
 
             var lblMarca = new Label
@@ -135,7 +135,7 @@ namespace GuardiaoCincoS.Formularios
             AdicionarItemMenu("Calendário de Eventos", indentado: false, aoClicar: () => AbrirFormulario(new FrmCalendarioEventos()));
 
             // --- Rodapé: usuário logado + Deslogar/Sair lado a lado ---
-            var pnlRodape = new Panel { Dock = DockStyle.Bottom, Height = 100, BackColor = Color.FromArgb(20, 32, 58) };
+            var pnlRodape = new Panel { Dock = DockStyle.Bottom, Height = 118, BackColor = Color.FromArgb(20, 32, 58) };
 
             var lblNomeUsuarioRodape = new Label
             {
@@ -180,6 +180,16 @@ namespace GuardiaoCincoS.Formularios
             btnSair.FlatAppearance.BorderSize = 0;
             btnSair.Click += BtnSair_Click;
 
+            var lblVersaoRodape = new Label
+            {
+                Text = VersaoApp.ObterVersaoTexto(),
+                ForeColor = Color.FromArgb(140, 150, 170),
+                Font = new Font("Segoe UI", 7.5F),
+                Location = new Point(20, 94),
+                Size = new Size(200, 16)
+            };
+
+            pnlRodape.Controls.Add(lblVersaoRodape);
             pnlRodape.Controls.Add(btnDeslogar);
             pnlRodape.Controls.Add(btnSair);
             pnlRodape.Controls.Add(lblPerfilRodape);

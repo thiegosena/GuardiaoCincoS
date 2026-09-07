@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Drawing;
 using System.Windows.Forms;
+using GuardiaoCincoS.Controles;
 using GuardiaoCincoS.Dados;
 using GuardiaoCincoS.Modelos;
 using GuardiaoCincoS.Servicos;
@@ -32,10 +34,123 @@ namespace GuardiaoCincoS.Formularios
                 return;
             }
 
+            MontarLayout();
             CarregarPerfis();
             CarregarGrid();
             AplicarModo(ModoTela.Novo);
         }
+
+        // Monta o visual inteiro por código, reaproveitando os controles que já
+        // existem no Designer (reparentando-os) -- assim toda a lógica de clique
+        // já ligada a eles continua funcionando sem alteração nenhuma.
+        private void MontarLayout()
+        {
+            ClientSize = new Size(900, 900);
+            StartPosition = FormStartPosition.CenterScreen;
+            BackColor = EstiloVisual.FundoPagina;
+
+            var pnlCabecalho = EstiloVisual.CriarCabecalho("Cadastro de Usuários");
+
+            var pnlConteudo = new Panel { Dock = DockStyle.Fill, BackColor = EstiloVisual.FundoPagina, AutoScroll = true, Padding = new Padding(20) };
+
+            // ===== Card do grid =====
+            var cartaoGrid = new CartaoSecao
+            {
+                Titulo = "Usuários Cadastrados",
+                CorDestaque = EstiloVisual.AzulKyly,
+                Dock = DockStyle.Top,
+                Height = 300,
+                Margin = new Padding(0, 0, 0, 20)
+            };
+
+            dgvUsuarios.Dock = DockStyle.Fill;
+            dgvUsuarios.Parent = cartaoGrid.PainelConteudo;
+            EstiloVisual.ConfigurarGrid(dgvUsuarios);
+
+            chkMostrarInativos.Dock = DockStyle.Top;
+            chkMostrarInativos.Height = 18;
+            chkMostrarInativos.Font = EstiloVisual.FonteTexto;
+            chkMostrarInativos.Parent = cartaoGrid.PainelConteudo;
+
+            
+
+            // ===== Card do formulário =====
+            var cartaoFormulario = new CartaoSecao
+            {
+                Titulo = "Dados do Usuário",
+                CorDestaque = EstiloVisual.AmareloKyly,
+                Dock = DockStyle.Top,
+                Height = 480
+            };
+
+            var grade = new TableLayoutPanel
+            {
+                Dock = DockStyle.Top,
+                AutoSize = true,
+                ColumnCount = 2,
+                RowCount = 6,
+                Padding = new Padding(4)
+            };
+            grade.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            grade.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            for (int i = 0; i < grade.RowCount; i++)
+                grade.RowStyles.Add(new RowStyle(SizeType.AutoSize));
+
+            var campoNome = EstiloVisual.CriarCampo("Nome completo", txtNomeCompleto);
+            grade.Controls.Add(campoNome, 0, 0);
+            grade.SetColumnSpan(campoNome, 2);
+
+            grade.Controls.Add(EstiloVisual.CriarCampo("Nome de usuário (login)", txtNomeUsuario), 0, 1);
+            grade.Controls.Add(EstiloVisual.CriarCampo("E-mail", txtEmail), 1, 1);
+
+            grade.Controls.Add(EstiloVisual.CriarCampo("Telefone", txtTelefone), 0, 2);
+            grade.Controls.Add(EstiloVisual.CriarCampo("Nível de acesso", cboPerfil), 1, 2);
+
+            grade.Controls.Add(EstiloVisual.CriarCampo("Senha", txtSenha), 0, 3);
+            grade.Controls.Add(EstiloVisual.CriarCampo("Confirmar senha", txtConfirmarSenha), 1, 3);
+
+            var lblDica = new Label
+            {
+                Text = "Deixe os campos de senha em branco durante a edição para manter a senha atual.",
+                Font = new Font("Segoe UI", 8.5F, FontStyle.Italic),
+                ForeColor = EstiloVisual.TextoSecundario,
+                AutoSize = true,
+                Margin = new Padding(6, 4, 6, 12)
+            };
+            grade.Controls.Add(lblDica, 0, 4);
+            grade.SetColumnSpan(lblDica, 2);
+
+            var pnlBotoes = new FlowLayoutPanel { FlowDirection = FlowDirection.LeftToRight, AutoSize = true, Margin = new Padding(6, 8, 6, 0) };
+
+            EstiloVisual.EstilizarBotao(btnNovoUsuario, "Novo", EstiloVisual.AzulKyly, Color.White);
+            EstiloVisual.EstilizarBotao(btnEditarUsuario, "Editar", EstiloVisual.AmareloKyly, EstiloVisual.TextoTitulo);
+            EstiloVisual.EstilizarBotao(btnCancelarEdicaoUsuario, "Cancelar Edição", Color.FromArgb(210, 214, 220), EstiloVisual.TextoTitulo);
+            EstiloVisual.EstilizarBotao(btnSalvarUsuario, "Salvar", EstiloVisual.Verde, Color.White);
+            EstiloVisual.EstilizarBotao(btnInativarUsuario, "Inativar", EstiloVisual.Vermelho, Color.White);
+            EstiloVisual.EstilizarBotao(btnReativarUsuario, "Reativar", EstiloVisual.Verde, Color.White);
+
+            pnlBotoes.Controls.Add(btnNovoUsuario);
+            pnlBotoes.Controls.Add(btnEditarUsuario);
+            pnlBotoes.Controls.Add(btnCancelarEdicaoUsuario);
+            pnlBotoes.Controls.Add(btnSalvarUsuario);
+            pnlBotoes.Controls.Add(btnInativarUsuario);
+            pnlBotoes.Controls.Add(btnReativarUsuario);
+
+            grade.Controls.Add(pnlBotoes, 0, 5);
+            grade.SetColumnSpan(pnlBotoes, 2);
+
+            cartaoFormulario.PainelConteudo.Controls.Add(grade);
+
+            // Ordem de adição = inverso da ordem visual desejada (grid em cima,
+            // formulário embaixo), mesma regra de Dock=Top que já usamos no Dashboard.
+            pnlConteudo.Controls.Add(cartaoFormulario);
+            pnlConteudo.Controls.Add(cartaoGrid);
+
+            Controls.Add(pnlConteudo);
+            Controls.Add(pnlCabecalho);
+        }
+
+        
 
         private void CarregarPerfis()
         {
@@ -59,6 +174,15 @@ namespace GuardiaoCincoS.Formularios
             if (dgvUsuarios.Columns["NomeUsuario"] != null) dgvUsuarios.Columns["NomeUsuario"]!.HeaderText = "Usuário (login)";
             if (dgvUsuarios.Columns["NomePerfil"] != null) dgvUsuarios.Columns["NomePerfil"]!.HeaderText = "Nível de acesso";
             if (dgvUsuarios.Columns["DataCriacao"] != null) dgvUsuarios.Columns["DataCriacao"]!.HeaderText = "Criado em";
+
+            foreach (DataGridViewRow linha in dgvUsuarios.Rows)
+            {
+                var usuario = (Usuario)linha.DataBoundItem!;
+                if (!usuario.Ativo)
+                {
+                    linha.DefaultCellStyle.ForeColor = EstiloVisual.TextoSecundario;
+                }
+            }
         }
 
         private void chkMostrarInativos_CheckedChanged(object sender, EventArgs e)
@@ -66,7 +190,6 @@ namespace GuardiaoCincoS.Formularios
             CarregarGrid();
         }
 
-        // Centraliza tudo que muda de acordo com o "estado" da tela
         private void AplicarModo(ModoTela modo)
         {
             _modoAtual = modo;
@@ -76,7 +199,7 @@ namespace GuardiaoCincoS.Formularios
                 case ModoTela.Novo:
                     LimparCampos();
                     HabilitarCamposCadastro(true);
-                    btnSalvarUsuario.Text = "Cadastrar Usuário";
+                    btnSalvarUsuario.Text = "Salvar";
                     btnSalvarUsuario.Enabled = true;
                     btnEditarUsuario.Enabled = false;
                     btnCancelarEdicaoUsuario.Enabled = false;
@@ -88,7 +211,7 @@ namespace GuardiaoCincoS.Formularios
 
                 case ModoTela.Visualizacao:
                     HabilitarCamposCadastro(false);
-                    btnSalvarUsuario.Text = "Cadastrar Usuário";
+                    btnSalvarUsuario.Text = "Salvar";
                     btnSalvarUsuario.Enabled = false;
                     btnEditarUsuario.Enabled = true;
                     btnCancelarEdicaoUsuario.Enabled = false;
@@ -100,7 +223,7 @@ namespace GuardiaoCincoS.Formularios
 
                 case ModoTela.Edicao:
                     HabilitarCamposCadastro(true);
-                    btnSalvarUsuario.Text = "Atualizar Usuário";
+                    btnSalvarUsuario.Text = "Atualizar";
                     btnSalvarUsuario.Enabled = true;
                     btnEditarUsuario.Enabled = false;
                     btnCancelarEdicaoUsuario.Enabled = true;
@@ -130,7 +253,6 @@ namespace GuardiaoCincoS.Formularios
             txtNomeUsuario.Text = string.Empty;
             txtEmail.Text = string.Empty;
             txtTelefone.Text = string.Empty;
-            // Padrão de segurança: nunca sugerir "Administrador" como perfil default
             if (cboPerfil.Items.Count > 0) cboPerfil.SelectedIndex = cboPerfil.Items.Count - 1;
             txtSenha.Text = string.Empty;
             txtConfirmarSenha.Text = string.Empty;
@@ -140,8 +262,7 @@ namespace GuardiaoCincoS.Formularios
         {
             if (e.RowIndex < 0) return;
 
-            var linhaSelecionada = dgvUsuarios.Rows[e.RowIndex];
-            var usuario = (Usuario)linhaSelecionada.DataBoundItem!;
+            var usuario = (Usuario)dgvUsuarios.Rows[e.RowIndex].DataBoundItem!;
 
             _usuarioSelecionado = usuario;
             txtNomeCompleto.Text = usuario.NomeCompleto;
@@ -155,10 +276,7 @@ namespace GuardiaoCincoS.Formularios
             AplicarModo(ModoTela.Visualizacao);
         }
 
-        private void btnNovoUsuario_Click(object sender, EventArgs e)
-        {
-            AplicarModo(ModoTela.Novo);
-        }
+        private void btnNovoUsuario_Click(object sender, EventArgs e) => AplicarModo(ModoTela.Novo);
 
         private void btnEditarUsuario_Click(object sender, EventArgs e)
         {

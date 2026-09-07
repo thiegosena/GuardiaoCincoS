@@ -29,39 +29,37 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmAuditorias));
+            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
             dgvHistoricoAuditorias = new DataGridView();
-            label1 = new Label();
             dtpDataAuditoria = new DateTimePicker();
-            label2 = new Label();
             txtSetor = new TextBox();
-            label3 = new Label();
             cboAuditor = new ComboBox();
             dgvChecklistSensos = new DataGridView();
-            label4 = new Label();
             txtObservacoesGerais = new TextBox();
             btnSalvarAuditoria = new Button();
             imageList1 = new ImageList(components);
             btnFechar = new Button();
-            label5 = new Label();
-            label6 = new Label();
             cboAcompanhante = new ComboBox();
-            label7 = new Label();
-            label8 = new Label();
             txtLocalPlaca = new TextBox();
-            label9 = new Label();
             dtpVencimentoPlaca = new DateTimePicker();
             btnAdicionarPlaca = new Button();
             dgvPlacasProvisorias = new DataGridView();
             btnRemoverPlaca = new Button();
-            label10 = new Label();
-            label11 = new Label();
             txtDescricaoItemCorrecao = new TextBox();
-            label12 = new Label();
             dtpPrazoItemCorrecao = new DateTimePicker();
             btnAdicionarItemCorrecao = new Button();
             dgvItensCorrecao = new DataGridView();
             btnRemoverItemCorrecao = new Button();
+            btnNovaAuditoria = new Button();
+            btnEditarAuditoria = new Button();
+            btnCancelarEdicaoAuditoria = new Button();
+            btnExcluirAuditoria = new Button();
             ((System.ComponentModel.ISupportInitialize)dgvHistoricoAuditorias).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dgvChecklistSensos).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dgvPlacasProvisorias).BeginInit();
@@ -71,22 +69,29 @@
             // dgvHistoricoAuditorias
             // 
             dgvHistoricoAuditorias.AllowUserToAddRows = false;
+            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = SystemColors.Control;
+            dataGridViewCellStyle1.Font = new Font("Segoe UI", 9F);
+            dataGridViewCellStyle1.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
+            dgvHistoricoAuditorias.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             dgvHistoricoAuditorias.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = SystemColors.Window;
+            dataGridViewCellStyle2.Font = new Font("Segoe UI", 9F);
+            dataGridViewCellStyle2.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
+            dgvHistoricoAuditorias.DefaultCellStyle = dataGridViewCellStyle2;
             dgvHistoricoAuditorias.Location = new Point(59, 67);
             dgvHistoricoAuditorias.Name = "dgvHistoricoAuditorias";
             dgvHistoricoAuditorias.ReadOnly = true;
-            dgvHistoricoAuditorias.Size = new Size(584, 150);
+            dgvHistoricoAuditorias.Size = new Size(915, 150);
             dgvHistoricoAuditorias.TabIndex = 0;
-            // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.Font = new Font("Segoe UI", 9F);
-            label1.Location = new Point(59, 236);
-            label1.Name = "label1";
-            label1.Size = new Size(31, 15);
-            label1.TabIndex = 1;
-            label1.Text = "Data";
+            dgvHistoricoAuditorias.CellClick += dgvHistoricoAuditorias_CellClick;
             // 
             // dtpDataAuditoria
             // 
@@ -96,32 +101,12 @@
             dtpDataAuditoria.Size = new Size(200, 23);
             dtpDataAuditoria.TabIndex = 2;
             // 
-            // label2
-            // 
-            label2.AutoSize = true;
-            label2.Font = new Font("Segoe UI", 9F);
-            label2.Location = new Point(313, 236);
-            label2.Name = "label2";
-            label2.Size = new Size(34, 15);
-            label2.TabIndex = 3;
-            label2.Text = "Setor";
-            // 
             // txtSetor
             // 
             txtSetor.Location = new Point(353, 230);
             txtSetor.Name = "txtSetor";
             txtSetor.Size = new Size(100, 23);
             txtSetor.TabIndex = 4;
-            // 
-            // label3
-            // 
-            label3.AutoSize = true;
-            label3.Font = new Font("Segoe UI", 9F);
-            label3.Location = new Point(464, 236);
-            label3.Name = "label3";
-            label3.Size = new Size(195, 15);
-            label3.TabIndex = 5;
-            label3.Text = "Guardião responsável pela auditoria";
             // 
             // cboAuditor
             // 
@@ -137,28 +122,18 @@
             dgvChecklistSensos.AllowUserToAddRows = false;
             dgvChecklistSensos.AllowUserToDeleteRows = false;
             dgvChecklistSensos.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvChecklistSensos.Location = new Point(665, 67);
+            dgvChecklistSensos.Location = new Point(665, 435);
             dgvChecklistSensos.Name = "dgvChecklistSensos";
             dgvChecklistSensos.RowHeadersVisible = false;
-            dgvChecklistSensos.Size = new Size(446, 150);
+            dgvChecklistSensos.Size = new Size(325, 224);
             dgvChecklistSensos.TabIndex = 7;
-            // 
-            // label4
-            // 
-            label4.AutoSize = true;
-            label4.Font = new Font("Segoe UI", 9F);
-            label4.Location = new Point(813, 236);
-            label4.Name = "label4";
-            label4.Size = new Size(108, 15);
-            label4.TabIndex = 8;
-            label4.Text = "Observações gerais";
             // 
             // txtObservacoesGerais
             // 
             txtObservacoesGerais.Location = new Point(813, 259);
             txtObservacoesGerais.Multiline = true;
             txtObservacoesGerais.Name = "txtObservacoesGerais";
-            txtObservacoesGerais.Size = new Size(298, 147);
+            txtObservacoesGerais.Size = new Size(161, 147);
             txtObservacoesGerais.TabIndex = 9;
             // 
             // btnSalvarAuditoria
@@ -167,12 +142,11 @@
             btnSalvarAuditoria.ImageAlign = ContentAlignment.MiddleLeft;
             btnSalvarAuditoria.ImageKey = "Save.png";
             btnSalvarAuditoria.ImageList = imageList1;
-            btnSalvarAuditoria.Location = new Point(59, 807);
+            btnSalvarAuditoria.Location = new Point(-18, 806);
             btnSalvarAuditoria.Name = "btnSalvarAuditoria";
             btnSalvarAuditoria.Size = new Size(154, 41);
             btnSalvarAuditoria.TabIndex = 10;
-            btnSalvarAuditoria.Text = "Salvar Auditoria";
-            btnSalvarAuditoria.TextAlign = ContentAlignment.MiddleRight;
+            btnSalvarAuditoria.Text = "Salvar";
             btnSalvarAuditoria.UseVisualStyleBackColor = true;
             btnSalvarAuditoria.Click += btnSalvarAuditoria_Click;
             // 
@@ -185,41 +159,25 @@
             imageList1.Images.SetKeyName(1, "Close.png");
             imageList1.Images.SetKeyName(2, "Plus.png");
             imageList1.Images.SetKeyName(3, "Minus.png");
+            imageList1.Images.SetKeyName(4, "New.png");
+            imageList1.Images.SetKeyName(5, "Edit.png");
+            imageList1.Images.SetKeyName(6, "Cancel.png");
+            imageList1.Images.SetKeyName(7, "Delete.png");
             // 
             // btnFechar
             // 
+            btnFechar.BackColor = Color.Transparent;
             btnFechar.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
             btnFechar.ImageAlign = ContentAlignment.MiddleLeft;
             btnFechar.ImageKey = "Close.png";
             btnFechar.ImageList = imageList1;
-            btnFechar.Location = new Point(1013, 807);
+            btnFechar.Location = new Point(1128, 0);
             btnFechar.Name = "btnFechar";
-            btnFechar.Size = new Size(98, 41);
+            btnFechar.Size = new Size(40, 38);
             btnFechar.TabIndex = 11;
-            btnFechar.Text = "Fechar";
             btnFechar.TextAlign = ContentAlignment.MiddleRight;
-            btnFechar.UseVisualStyleBackColor = true;
+            btnFechar.UseVisualStyleBackColor = false;
             btnFechar.Click += btnFechar_Click;
-            // 
-            // label5
-            // 
-            label5.AutoSize = true;
-            label5.Font = new Font("Segoe UI", 22F, FontStyle.Bold);
-            label5.Location = new Point(510, 9);
-            label5.Name = "label5";
-            label5.Size = new Size(152, 41);
-            label5.TabIndex = 12;
-            label5.Text = "Auditoria";
-            // 
-            // label6
-            // 
-            label6.AutoSize = true;
-            label6.Font = new Font("Segoe UI", 9F);
-            label6.Location = new Point(469, 278);
-            label6.Name = "label6";
-            label6.Size = new Size(159, 15);
-            label6.TabIndex = 13;
-            label6.Text = "Colaborador acompanhante:";
             // 
             // cboAcompanhante
             // 
@@ -230,42 +188,12 @@
             cboAcompanhante.Size = new Size(157, 23);
             cboAcompanhante.TabIndex = 14;
             // 
-            // label7
-            // 
-            label7.AutoSize = true;
-            label7.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
-            label7.Location = new Point(59, 273);
-            label7.Name = "label7";
-            label7.Size = new Size(335, 25);
-            label7.TabIndex = 15;
-            label7.Text = "— Placas Provisórias Identificadas —";
-            // 
-            // label8
-            // 
-            label8.AutoSize = true;
-            label8.Font = new Font("Segoe UI", 9F);
-            label8.Location = new Point(59, 311);
-            label8.Name = "label8";
-            label8.Size = new Size(85, 15);
-            label8.TabIndex = 16;
-            label8.Text = "Local da placa:";
-            // 
             // txtLocalPlaca
             // 
             txtLocalPlaca.Location = new Point(150, 308);
             txtLocalPlaca.Name = "txtLocalPlaca";
             txtLocalPlaca.Size = new Size(131, 23);
             txtLocalPlaca.TabIndex = 17;
-            // 
-            // label9
-            // 
-            label9.AutoSize = true;
-            label9.Font = new Font("Segoe UI", 9F);
-            label9.Location = new Point(347, 314);
-            label9.Name = "label9";
-            label9.Size = new Size(73, 15);
-            label9.TabIndex = 16;
-            label9.Text = "Vencimento:";
             // 
             // dtpVencimentoPlaca
             // 
@@ -293,7 +221,23 @@
             // dgvPlacasProvisorias
             // 
             dgvPlacasProvisorias.AllowUserToAddRows = false;
+            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = SystemColors.Control;
+            dataGridViewCellStyle3.Font = new Font("Segoe UI", 9F);
+            dataGridViewCellStyle3.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle3.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.True;
+            dgvPlacasProvisorias.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
             dgvPlacasProvisorias.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = SystemColors.Window;
+            dataGridViewCellStyle4.Font = new Font("Segoe UI", 9F);
+            dataGridViewCellStyle4.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle4.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = DataGridViewTriState.False;
+            dgvPlacasProvisorias.DefaultCellStyle = dataGridViewCellStyle4;
             dgvPlacasProvisorias.Location = new Point(59, 337);
             dgvPlacasProvisorias.Name = "dgvPlacasProvisorias";
             dgvPlacasProvisorias.ReadOnly = true;
@@ -315,42 +259,12 @@
             btnRemoverPlaca.UseVisualStyleBackColor = true;
             btnRemoverPlaca.Click += btnRemoverPlaca_Click;
             // 
-            // label10
-            // 
-            label10.AutoSize = true;
-            label10.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
-            label10.Location = new Point(59, 502);
-            label10.Name = "label10";
-            label10.Size = new Size(234, 25);
-            label10.TabIndex = 15;
-            label10.Text = "— Itens para Correção —";
-            // 
-            // label11
-            // 
-            label11.AutoSize = true;
-            label11.Font = new Font("Segoe UI", 9F);
-            label11.Location = new Point(59, 536);
-            label11.Name = "label11";
-            label11.Size = new Size(84, 15);
-            label11.TabIndex = 16;
-            label11.Text = "Item a corrigir:";
-            // 
             // txtDescricaoItemCorrecao
             // 
             txtDescricaoItemCorrecao.Location = new Point(149, 533);
             txtDescricaoItemCorrecao.Name = "txtDescricaoItemCorrecao";
             txtDescricaoItemCorrecao.Size = new Size(147, 23);
             txtDescricaoItemCorrecao.TabIndex = 17;
-            // 
-            // label12
-            // 
-            label12.AutoSize = true;
-            label12.Font = new Font("Segoe UI", 9F);
-            label12.Location = new Point(302, 536);
-            label12.Name = "label12";
-            label12.Size = new Size(122, 15);
-            label12.TabIndex = 16;
-            label12.Text = "Prazo para conclusão:";
             // 
             // dtpPrazoItemCorrecao
             // 
@@ -378,7 +292,23 @@
             // dgvItensCorrecao
             // 
             dgvItensCorrecao.AllowUserToAddRows = false;
+            dataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle5.BackColor = SystemColors.Control;
+            dataGridViewCellStyle5.Font = new Font("Segoe UI", 9F);
+            dataGridViewCellStyle5.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle5.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle5.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle5.WrapMode = DataGridViewTriState.True;
+            dgvItensCorrecao.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
             dgvItensCorrecao.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle6.BackColor = SystemColors.Window;
+            dataGridViewCellStyle6.Font = new Font("Segoe UI", 9F);
+            dataGridViewCellStyle6.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle6.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle6.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle6.WrapMode = DataGridViewTriState.False;
+            dgvItensCorrecao.DefaultCellStyle = dataGridViewCellStyle6;
             dgvItensCorrecao.Location = new Point(59, 562);
             dgvItensCorrecao.Name = "dgvItensCorrecao";
             dgvItensCorrecao.ReadOnly = true;
@@ -400,12 +330,73 @@
             btnRemoverItemCorrecao.UseVisualStyleBackColor = true;
             btnRemoverItemCorrecao.Click += btnRemoverItemCorrecao_Click;
             // 
+            // btnNovaAuditoria
+            // 
+            btnNovaAuditoria.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            btnNovaAuditoria.ImageAlign = ContentAlignment.MiddleLeft;
+            btnNovaAuditoria.ImageKey = "New.png";
+            btnNovaAuditoria.ImageList = imageList1;
+            btnNovaAuditoria.Location = new Point(195, 806);
+            btnNovaAuditoria.Name = "btnNovaAuditoria";
+            btnNovaAuditoria.Size = new Size(154, 41);
+            btnNovaAuditoria.TabIndex = 23;
+            btnNovaAuditoria.Text = "Novo";
+            btnNovaAuditoria.UseVisualStyleBackColor = true;
+            btnNovaAuditoria.Click += btnNovaAuditoria_Click;
+            // 
+            // btnEditarAuditoria
+            // 
+            btnEditarAuditoria.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            btnEditarAuditoria.ImageAlign = ContentAlignment.MiddleLeft;
+            btnEditarAuditoria.ImageKey = "Edit.png";
+            btnEditarAuditoria.ImageList = imageList1;
+            btnEditarAuditoria.Location = new Point(419, 806);
+            btnEditarAuditoria.Name = "btnEditarAuditoria";
+            btnEditarAuditoria.Size = new Size(154, 41);
+            btnEditarAuditoria.TabIndex = 24;
+            btnEditarAuditoria.Text = "Editar";
+            btnEditarAuditoria.UseVisualStyleBackColor = true;
+            btnEditarAuditoria.Click += btnEditarAuditoria_Click;
+            // 
+            // btnCancelarEdicaoAuditoria
+            // 
+            btnCancelarEdicaoAuditoria.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            btnCancelarEdicaoAuditoria.ImageAlign = ContentAlignment.MiddleLeft;
+            btnCancelarEdicaoAuditoria.ImageKey = "Cancel.png";
+            btnCancelarEdicaoAuditoria.ImageList = imageList1;
+            btnCancelarEdicaoAuditoria.Location = new Point(640, 806);
+            btnCancelarEdicaoAuditoria.Name = "btnCancelarEdicaoAuditoria";
+            btnCancelarEdicaoAuditoria.Size = new Size(154, 41);
+            btnCancelarEdicaoAuditoria.TabIndex = 25;
+            btnCancelarEdicaoAuditoria.Text = "Cancelar Edição";
+            btnCancelarEdicaoAuditoria.TextAlign = ContentAlignment.MiddleRight;
+            btnCancelarEdicaoAuditoria.UseVisualStyleBackColor = true;
+            btnCancelarEdicaoAuditoria.Click += btnCancelarEdicaoAuditoria_Click;
+            // 
+            // btnExcluirAuditoria
+            // 
+            btnExcluirAuditoria.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            btnExcluirAuditoria.ImageAlign = ContentAlignment.MiddleLeft;
+            btnExcluirAuditoria.ImageKey = "Delete.png";
+            btnExcluirAuditoria.ImageList = imageList1;
+            btnExcluirAuditoria.Location = new Point(861, 806);
+            btnExcluirAuditoria.Name = "btnExcluirAuditoria";
+            btnExcluirAuditoria.Size = new Size(154, 41);
+            btnExcluirAuditoria.TabIndex = 26;
+            btnExcluirAuditoria.Text = "Excluir";
+            btnExcluirAuditoria.UseVisualStyleBackColor = true;
+            btnExcluirAuditoria.Click += btnExcluirAuditoria_Click;
+            // 
             // FrmAuditorias
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             AutoScroll = true;
-            ClientSize = new Size(1168, 860);
+            ClientSize = new Size(1000, 950);
+            Controls.Add(btnExcluirAuditoria);
+            Controls.Add(btnCancelarEdicaoAuditoria);
+            Controls.Add(btnEditarAuditoria);
+            Controls.Add(btnNovaAuditoria);
             Controls.Add(dgvItensCorrecao);
             Controls.Add(btnRemoverItemCorrecao);
             Controls.Add(btnRemoverPlaca);
@@ -416,26 +407,14 @@
             Controls.Add(dtpVencimentoPlaca);
             Controls.Add(txtDescricaoItemCorrecao);
             Controls.Add(txtLocalPlaca);
-            Controls.Add(label9);
-            Controls.Add(label12);
-            Controls.Add(label11);
-            Controls.Add(label8);
-            Controls.Add(label10);
-            Controls.Add(label7);
             Controls.Add(cboAcompanhante);
-            Controls.Add(label6);
-            Controls.Add(label5);
             Controls.Add(btnFechar);
             Controls.Add(btnSalvarAuditoria);
             Controls.Add(txtObservacoesGerais);
-            Controls.Add(label4);
             Controls.Add(dgvChecklistSensos);
             Controls.Add(cboAuditor);
-            Controls.Add(label3);
             Controls.Add(txtSetor);
-            Controls.Add(label2);
             Controls.Add(dtpDataAuditoria);
-            Controls.Add(label1);
             Controls.Add(dgvHistoricoAuditorias);
             Font = new Font("Segoe UI", 9F);
             FormBorderStyle = FormBorderStyle.None;
@@ -458,36 +437,28 @@
         #endregion
 
         private DataGridView dgvHistoricoAuditorias;
-        private Label label1;
         private DateTimePicker dtpDataAuditoria;
-        private Label label2;
         private TextBox txtSetor;
-        private Label label3;
         private ComboBox cboAuditor;
         private DataGridView dgvChecklistSensos;
-        private Label label4;
         private TextBox txtObservacoesGerais;
         private Button btnSalvarAuditoria;
         private ImageList imageList1;
         private Button btnFechar;
-        private Label label5;
-        private Label label6;
         private ComboBox cboAcompanhante;
-        private Label label7;
-        private Label label8;
         private TextBox txtLocalPlaca;
-        private Label label9;
         private DateTimePicker dtpVencimentoPlaca;
         private Button btnAdicionarPlaca;
         private DataGridView dgvPlacasProvisorias;
         private Button btnRemoverPlaca;
-        private Label label10;
-        private Label label11;
         private TextBox txtDescricaoItemCorrecao;
-        private Label label12;
         private DateTimePicker dtpPrazoItemCorrecao;
         private Button btnAdicionarItemCorrecao;
         private DataGridView dgvItensCorrecao;
         private Button btnRemoverItemCorrecao;
+        private Button btnNovaAuditoria;
+        private Button btnEditarAuditoria;
+        private Button btnCancelarEdicaoAuditoria;
+        private Button btnExcluirAuditoria;
     }
 }
